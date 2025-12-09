@@ -1,0 +1,35 @@
+﻿Estimate summary
+Upfront cost,Monthly cost,Total 12 months cost,Currency
+0,23.61,283.32,USD
+,,* Includes upfront cost
+
+
+Detailed Estimate
+Group hierarchy,Region,Description,Service,Upfront,Monthly,First 12 months total,Currency,Status,Configuration summary
+My Estimate,Asia Pacific (Singapore),,AWS Lambda,0,0,0.00,USD,,"Architecture (x86), Architecture (x86), Invoke Mode (Buffered), Amount of ephemeral storage allocated (512 MB), Number of requests (60000 per month)"
+My Estimate,Asia Pacific (Singapore), Writing Evaluator,AWS Lambda,0,0,0.00,USD,,"Architecture (x86), Architecture (x86), Invoke Mode (Buffered), Amount of ephemeral storage allocated (512 MB), Number of requests (60000 per month)"
+My Estimate,Asia Pacific (Singapore),Speaking Evaluator,AWS Lambda,0,0,0.00,USD,,"Architecture (x86), Architecture (x86), Invoke Mode (Buffered), Amount of ephemeral storage allocated (512 MB), Number of requests (120000 per month)"
+My Estimate,Asia Pacific (Singapore),Evaluation Status,AWS Lambda,0,0,0.00,USD,,"Architecture (x86), Architecture (x86), Invoke Mode (Buffered), Amount of ephemeral storage allocated (512 MB), Number of requests (10000 per month)"
+My Estimate,Asia Pacific (Singapore),S3 Upload,AWS Lambda,0,0,0.00,USD,,"Architecture (x86), Architecture (x86), Invoke Mode (Buffered), Amount of ephemeral storage allocated (512 MB), Number of requests (30000 per month)"
+My Estimate,Asia Pacific (Singapore),,Amazon API Gateway,0,0.42,5.04,USD,,"HTTP API requests units (millions), Average size of each request (34 KB), REST API request units (millions), Cache memory size (GB) (None), WebSocket message units (thousands), Average message size (32 KB), Requests (0.1 per month)"
+My Estimate,Asia Pacific (Singapore),Audio bucket,S3 Standard,0,0.51,6.12,USD,,"S3 Standard storage (20 GB per month), PUT, COPY, POST, LIST requests to S3 Standard (2000), GET, SELECT, and all other requests from S3 Standard (2000)"
+My Estimate,Asia Pacific (Singapore),Audio bucket,Data Transfer,0,0,0.00,USD,,
+My Estimate,Asia Pacific (Singapore),Documents Bucket,S3 Standard,0,0.53,6.36,USD,,"S3 Standard storage (20 GB per month), PUT, COPY, POST, LIST requests to S3 Standard (5000), GET, SELECT, and all other requests from S3 Standard (5000)"
+My Estimate,Asia Pacific (Singapore),Documents Bucket,Data Transfer,0,0,0.00,USD,,
+My Estimate,Asia Pacific (Singapore),Evaluations Table (writing + speaking evaluations),DynamoDB on-demand capacity,0,0.37,4.44,USD,,"Table class (Standard), Average item size (all attributes) (3 KB), Data storage size (1 GB)"
+My Estimate,Asia Pacific (Singapore),Flashcard Sets Table,DynamoDB on-demand capacity,0,0.52,6.24,USD,,"Table class (Standard), Average item size (all attributes) (8 KB), Data storage size (1 GB)"
+My Estimate,Asia Pacific (Singapore),Writing evaluation queue,Amazon Simple Queue Service (SQS),0,0,0.00,USD,,Standard queue requests (0.01 million per month)
+My Estimate,Asia Pacific (Singapore),writing-evaluation-dlq,Amazon Simple Queue Service (SQS),0,0,0.00,USD,,Standard queue requests (0.01 million per month)
+My Estimate,Asia Pacific (Singapore),speaking-evaluation,Amazon Simple Queue Service (SQS),0,0,0.00,USD,,Standard queue requests (0.01 million per month)
+My Estimate,Asia Pacific (Singapore),speaking-evaluation-dlq,Amazon Simple Queue Service (SQS),0,0,0.00,USD,,Standard queue requests (0.01 million per month)
+My Estimate,Asia Pacific (Singapore),flashcard-generation,Amazon Simple Queue Service (SQS),0,0,0.00,USD,,Standard queue requests (0.01 million per month)
+My Estimate,Asia Pacific (Singapore),flashcard-generation-dlq,Amazon Simple Queue Service (SQS),0,0,0.00,USD,,Standard queue requests (0.01 million per month)
+My Estimate,Asia Pacific (Singapore),,AWS Secrets Manager,0,0.45,5.40,USD,,"Number of secrets (1), Average duration of each secret (30 days), Number of API calls (10000 per month)"
+My Estimate,Asia Pacific (Singapore), RAG Lambda,Amazon CloudWatch,0,0.007045,0.08,USD,,"Standard Logs: Data Ingested (0.01 GB), Number of Lambda functions (5), Number of requests per function (90 per month)"
+My Estimate,US East (N. Virginia),,Amazon,0,0.5,6.00,USD,,"Select your inference route (Geo Cross Region Inference), Select your inference type (On Demand - Standard), Number of documents per month (1000), Average tokens per document (25000)"
+My Estimate,US East (N. Virginia),,OpenAI,0,20.304,243.65,USD,,"Select your inference route (Geo Cross Region Inference), Select your inference type (On Demand - Standard), Average requests per minute (1), Hours per day at this rate (8), Average input tokens per request (3000), Average output tokens per request (2000)"
+
+
+
+Acknowledgement
+"* AWS Pricing Calculator provides only an estimate of your AWS fees and doesn't include any taxes that might apply. Your actual fees depend on a variety of factors, including your actual usage of AWS services."

@@ -1,166 +1,93 @@
 ﻿---
-title: "Amazon SageMaker giới thiệu bộ lưu trữ chia sẻ dựa trên Amazon S3 để tăng cường cộng tác dự án"
-date: 2025-09-16
-weight: 2
+title: "AWS cho các Ngành công nghiệp: 150 Mô hình và Đang tăng - Hướng dẫn về các Mô hình Generative AI cho Y tế và Khoa học Đời sống"
+date: 2025-05-07
+weight: 12
 chapter: false
-pre: " <b> 3.2. </b> "
+pre: " <b> 3.3. </b> "
 ---
 
-Ngày đăng: 2025‑09‑16 – Tác giả: Hari Ramesh, Anagha Barve, Anchit Gupta, Saurabh Bhutyani và Zach Mitchell trong [Amazon SageMaker Unified Studio](https://aws.amazon.com/blogs/big-data/category/analytics/amazon-sagemaker-unified-studio/), [Amazon Simple Storage Service (S3)](https://aws.amazon.com/blogs/big-data/category/storage/amazon-simple-storage-services-s3/), [Announcements](https://aws.amazon.com/blogs/big-data/category/post-types/announcements/), [Intermediate (200)](https://aws.amazon.com/blogs/big-data/category/learning-levels/intermediate-200/),[Technical How-to](https://aws.amazon.com/blogs/big-data/category/post-types/technical-how-to/).
-
-AWS gần đây đã công bố rằng [Amazon SageMaker](https://aws.amazon.com/sagemaker/) hiện cung cấp  [Amazon Simple Storage Service](https://aws.amazon.com/s3) (Amazon S3) làm lựa chọn lưu trữ file mặc định cho các dự án mới trong [Amazon SageMaker Unified Studio](https://aws.amazon.com/sagemaker/unified-studio/). Tính năng này giải quyết việc ngừng hỗ trợ [AWS CodeCommit](https://aws.amazon.com/codecommit/), đồng thời mang đến cho các nhóm một cách đơn giản và nhất quán để cộng tác trên các file dự án trong toàn bộ công cụ phát triển tích hợp của SageMaker.
-
-Tùy chọn lưu trữ Amazon S3 mới này mang lại những lợi ích sau:
-
-* **Hợp tác đơn giản** – Chia sẻ file trực tiếp giữa các thành viên dự án mà không cần thao tác Git.  
-* **Truy cập đồng nhất** – File được truy cập nhất quán trên các công cụ SageMaker (JupyterLab, Query Editor, Visual ETL).  
-* **Phân tách workspace rõ ràng** – Có sẵn phân tách lưu trữ cá nhân với [Amazon Elastic Block Store](https://aws.amazon.com/ebs) (Amazon EBS) volumes.  
-* **Khả dụng toàn cầu** – Hỗ trợ ở tất cả các AWS Region mà SageMaker có mặt.
-
-Mặc dù Amazon S3 là tùy chọn mặc định cho việc lưu trữ file, bạn vẫn có thể sử dụng Git version control nếu muốn có khả năng quản lý source code mạnh mẽ hơn.
-
-Trong bài viết này, chúng ta sẽ thảo luận về tính năng mới và cách bắt đầu sử dụng **Amazon S3 shared storage** trong **SageMaker Unified Studio**.
+Ngày đăng: 07-05-2025 – Tác giả: Malvika Viswanathan, Amrita Sarkar, và Stephanie Dattoli trong [Amazon Athena](https://aws.amazon.com/athena/), [Amazon Bedrock](https://aws.amazon.com/bedrock/), [Healthcare](https://aws.amazon.com/health/), [Industries](https://aws.amazon.com/industries/).
 
 ---
 
-**Tổng quan giải pháp**
+**Generative AI** đang định hình lại ngành Y tế và Khoa học Đời sống (HCLS). Từ AstraZeneca và Pfizer đến 3M và Allen Institute, các nhà đổi mới đang sử dụng AI để thúc đẩy quá trình khám phá thuốc, tăng năng suất của các nhà khoa học và hợp lý hóa các quy trình làm việc lâm sàng.
 
-Khi bạn tạo một **SageMaker Unified Studio domain** mới, dịch vụ sẽ tự động cấu hình **Amazon S3** làm tùy chọn lưu trữ mặc định cho dự án. Mỗi dự án sẽ nhận được một vùng lưu trữ chung chuyên biệt trong Amazon S3, khả dụng cho các thành viên dự án, với cấu trúc:
+Khi việc áp dụng ngày càng tăng, nhu cầu về các mô hình được tùy chỉnh cho những thách thức riêng biệt của HCLS cũng vậy—từ tóm tắt văn bản y tế, phân loại hình ảnh DICOM, đến cải thiện hiệu quả của việc khám phá thuốc. Tuy nhiên, nhiều tổ chức vẫn dựa vào truyền miệng hoặc các sự kiện trong ngành để xác định các mô hình phù hợp, gây ra cả sự trở ngại và chậm trễ trong vòng đời phát triển AI.
 
-\[bucket\]/\[domain-id\]/\[project-id\]/shared/.
+Đó là lúc **Amazon Web Services (AWS) Marketplace** phát huy thế mạnh. Là danh mục được tuyển chọn lớn nhất về các mô hình AI cho y tế và khoa học đời sống, nó cung cấp quy trình mua sắm cấp doanh nghiệp đã được phê duyệt trước để hợp lý hóa việc triển khai ở quy mô lớn, tăng tốc độ khám phá các mô hình chuyên biệt của ngành và tích hợp nhanh chóng vào các quy trình lâm sàng, nghiên cứu hoặc vận hành. Dù bạn đang muốn cải thiện việc lựa chọn nhóm đối tượng, tăng tốc phát triển thuốc, hay mở rộng các quy trình làm việc về hình ảnh, AWS Marketplace giúp việc áp dụng mô hình generative AI phù hợp trở nên dễ dàng—và nhanh chóng.
 
-### Công cụ SageMaker (JupyterLab và Code Editor) cung cấp cho người dùng:
+Nhiều khách hàng đang chuyển sang áp dụng **AI Tác nhân (Agentic AI)** để cho phép các quy trình làm việc tự chủ trên chuỗi giá trị HCLS. Việc sử dụng đúng mô hình có thể giúp triển khai nhanh chóng các tác nhân để đưa ra các quyết định thông minh, phù hợp với ngữ cảnh mà không cần phải đào tạo mô hình.
 
-* Một **EBS volume cá nhân** để làm việc riêng trong JupyterLab và Code Editor.  
-* Một thư mục chia sẻ được mount, chứa không gian lưu trữ dùng chung của dự án trên Amazon S3.  
-* Phân tách rõ ràng giữa không gian cá nhân và không gian chia sẻ.
-
-### Khả năng truy cập lưu trữ chia sẻ trong các công cụ phát triển tích hợp SageMaker:
-
-* **JupyterLab** và **Code Editor** hiển thị file chia sẻ song song với file cá nhân.  
-* **Query Editor** lọc các SQL notebook có liên quan.  
-* **Visual ETL** cung cấp khả năng truy cập trực tiếp tới các workflow ETL (extract, transform, load) chia sẻ.
-
-Các file được lưu vào thư mục dùng chung sẽ ngay lập tức khả dụng và hiển thị cho các thành viên dự án. Người dùng vẫn có thể tiếp tục làm việc với file cá nhân trong **EBS volumes** (ví dụ trong JupyterLab và Code Editor) và có thể chuyển file sang vùng lưu trữ chia sẻ khi sẵn sàng cộng tác. Nếu bạn muốn dùng Git cho việc cộng tác, bạn vẫn có thể làm điều đó bằng cách tích hợp dự án với GitHub, GitLab, hoặc các repository được quản lý trên Bitbucket.
+Chúng tôi sẽ làm nổi bật một số mô hình generative AI phù hợp nhất hiện có trên AWS Marketplace, và khám phá các dịch vụ của AWS giúp vận hành AI ở quy mô lớn trong môi trường HCLS.
 
 ---
 
-## **Tùy chọn di chuyển và kiểm soát phiên bản**
+### **Tìm kiếm mô hình phù hợp**
 
-Đối với các nhóm hiện đang sử dụng **Amazon CodeCommit**, các dự án hiện có vẫn sẽ hoạt động bình thường. Các dự án mới sẽ mặc định sử dụng lưu trữ **Amazon S3**. Nếu bạn muốn có chức năng **version control** cho các dự án dựa trên Amazon S3, bạn có thể bật tính năng **versioning trực tiếp** trong Amazon S3.
+Với việc nhiều tổ chức đã đặt nền móng cho việc áp dụng generative AI, chúng tôi đang thấy một sự thay đổi rõ rệt. Khách hàng ngày càng chuyển sang sử dụng các mô hình chuyên biệt cho từng ngành để giải quyết các thách thức phức tạp hơn. Một số khách hàng cũng đang tìm cách nâng cao các ứng dụng hiện có bằng các mô hình chuyên sâu, mang lại độ chính xác cao hơn, cải thiện tính an toàn và đạt được kết quả tốt hơn.
 
----
+Sau đây là một số ví dụ nổi bật về cách các tổ chức hàng đầu đang tận dụng những mô hình chuyên biệt này (tất cả đều có sẵn trên AWS Marketplace):
 
-## **Các bước chuẩn bị**
-
-Trước khi thực hiện các hướng dẫn trong phần tiếp theo, bạn cần hoàn thành các bước chuẩn bị sau:
-
-1. [Đăng ký tài khoản AWS](https://docs.aws.amazon.com/sagemaker-unified-studio/latest/adminguide/setting-up.html#sign-up-for-aws)**.**  
-2. [Tạo người dùng có quyền quản trị (administrative access)](https://docs.aws.amazon.com/sagemaker-unified-studio/latest/adminguide/setting-up.html#create-an-admin)**.**  
-3. [Kích hoạt IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/enable-identity-center.html) trong cùng **AWS Region** mà bạn muốn tạo **SageMaker Unified Studio domain**. Xác nhận xem SageMaker Unified Studio hiện có sẵn ở Region nào. Thiết lập **Identity Provider (IdP)** và đồng bộ hóa danh tính (identities) và nhóm (groups) với **IAM Identity Center**. Để biết thêm chi tiết, tham khảo phần [IAM Identity Center Identity source tutorials](https://docs.aws.amazon.com/singlesignon/latest/userguide/tutorials.html).
-
----
-
-## **Bắt đầu sử dụng Amazon S3 Shared Storage**
-
-Để bắt đầu sử dụng **Amazon S3 shared storage**, hãy hoàn thành các bước sau:
-
-1. Tạo một **SageMaker Unified Studio domain** mới.  
-
-![](/images/3-BlogsTranslated/Blog2/img1.png)
-
-2. Tạo một dự án mới (lưu trữ Amazon S3 sẽ được chọn mặc định làm tùy chọn lưu trữ file).  
-![](/images/3-BlogsTranslated/Blog2/img2.png)
-
-3. Mở dự án mới và chọn **JupyterLab** trong menu **Build**.  
-![](/images/3-BlogsTranslated/Blog2/img3.png)
-
-4. Lưu notebook mới mà bạn vừa tạo.  
-![](/images/3-BlogsTranslated/Blog2/img4.png)
-
-5. Đổi tên file theo ý bạn.  
-   ![](/images/3-BlogsTranslated/Blog2/img5.png)
-
-
-Sau khi dự án được lưu, người dùng trong dự án có thể xem notebook đã lưu trong phần **Project files** theo đường dẫn S3:
-
-\[bucket\]/\[domain-id\]/\[project-id\]/shared/.
-
----
-![](/images/3-BlogsTranslated/Blog2/img6.png)
-
-### **Bật kiểm soát phiên bản với Git**
-
-Để bật **version control** bằng Git, hãy thực hiện các bước sau:
-
-1. Truy cập **SageMaker console** và tạo **project profile** mới.  
-![](/images/3-BlogsTranslated/Blog2/img7.png)
-
-2. Cung cấp đầy đủ thông tin cần thiết cho project profile của bạn.  
-![](/images/3-BlogsTranslated/Blog2/img8.png)
-
-3. Trong phần **Project files storage**, tùy chọn **Amazon S3** được chọn mặc định. Nếu muốn bật version control cho dự án, bạn có thể sử dụng các kết nối repository Git sẵn có bằng cách chọn **Git repository**.
-![](/images/3-BlogsTranslated/Blog2/img9.png)
-
+* **Bio-FMs để nhận diện thuốc mới:** Các mô hình Generative AI có thể giúp dự đoán các đặc tính hấp thụ, phân phối, chuyển hóa và bài tiết (ADME) quan trọng của các ứng viên thuốc. Bằng cách phân tích cấu trúc phân tử và dữ liệu hóa lý, các mô hình này có thể dự báo một hợp chất sẽ hoạt động như thế nào trong cơ thể. **Evolutionary Scales’ ESMC models** là một ví dụ điển hình cho loại mô hình này.
+* **Hoạt động y tế và an toàn bệnh nhân:** Generative AI đang đóng vai trò quan trọng trong việc giám sát an toàn thử nghiệm lâm sàng, đặc biệt là xác định các phản ứng thuốc có hại tiềm ẩn (ADR). Mô hình **John Snow Labs Adverse Drug Events (ADE)** được đào tạo trên hơn 400 loại thực thể y tế, cho phép phát hiện chính xác ADR trong các nguồn dữ liệu phi cấu trúc như mạng xã hội và ghi chú lâm sàng.
+* **Thiết kế thử nghiệm lâm sàng:** Các mô hình của **QuantHealth** dự đoán các điểm cuối của thử nghiệm lâm sàng và việc đăng ký tham gia thử nghiệm. QuantHealth sở hữu thư viện mô hình phát triển lâm sàng được đào tạo trên dữ liệu của hàng triệu cuộc sống bệnh nhân, dự đoán độ an toàn và hiệu quả với độ chính xác 85% trong các lĩnh vực ung thư, tim mạch và bệnh tự miễn. Các mô hình này sẽ có mặt trên AWS Marketplace vào tháng 5 năm 2025.
+* **Tối ưu hóa thử nghiệm lâm sàng:** Các tổ chức khoa học đời sống ngày càng tìm đến các mô hình ngôn ngữ lớn (LLM) trên **Amazon Bedrock**, như **Anthropic’s Claude**, để hợp lý hóa việc tạo tài liệu thử nghiệm lâm sàng (ví dụ: giao thức thử nghiệm đối chứng ngẫu nhiên). Việc tự động hóa này giúp các đội nghiên cứu tập trung vào thiết kế nghiên cứu và tuyển dụng bệnh nhân.
+* **Các mô hình thị giác máy tính trong môi trường lâm sàng:** Được sử dụng cho một loạt các ứng dụng từ giám sát PPE đến hỗ trợ chẩn đoán. Ví dụ, mô hình **Diabetic Retinopathy Detector** của VITech Lab phân tích hình ảnh quét võng mạc để phát hiện và xếp hạng các bất thường liên quan đến bệnh tiểu đường, giúp ưu tiên các trường hợp khẩn cấp.
+* **Phân tích hình ảnh bệnh lý để phát hiện ung thư sớm:** Mô hình **Bioptimus H-Optimus-O** là mô hình nền tảng lớn nhất thế giới về bệnh lý học, với 1,1 tỷ tham số. Nó cho phép phân loại cấp độ bản vá (patch-level) của các lát cắt bệnh lý, hỗ trợ phát hiện ung thư sớm và giảm sự chậm trễ trong chẩn đoán.
+* **Tóm tắt y tế cho các quy trình làm việc lâm sàng:** Các mô hình như **John Snow Medical LLMs** được xây dựng có chủ đích để tóm tắt ghi chú xuất viện, báo cáo X-quang và kết quả bệnh lý. Chúng giúp các bác sĩ lâm sàng điều hướng qua các dữ liệu phi cấu trúc dày đặc.
+* **Chẩn đoán và lập kế hoạch điều trị có hỗ trợ AI:** **Palmyra-Med 70B** của Writer là một LLM được thiết kế riêng cho y tế, đạt điểm chuẩn sinh học y tế 85,87%. Nó thực hiện nhận dạng thực thể nâng cao, trích xuất các khái niệm y tế từ văn bản phi cấu trúc, hỗ trợ ra quyết định lâm sàng.
 
 ---
 
-### **Sử dụng shared storage trong Query Editor**
+### **Khám phá, tinh chỉnh và triển khai các mô hình generative AI trong ngành HCLS**
 
-Để sử dụng tính năng **shared storage** trong **Query Editor**, hãy thực hiện các bước sau:
+Khi bạn đã xác định được mô hình phù hợp, AWS cung cấp bộ công cụ đầy đủ để khám phá, tinh chỉnh và triển khai trong môi trường an toàn và tuân thủ.
 
-1. Chọn **Query Editor** từ menu **Build**.  
-![](/images/3-BlogsTranslated/Blog2/img10.png)
+#### **Amazon SageMaker Unified Studio – Phát triển và tinh chỉnh mô hình hoàn chỉnh**
+Cung cấp môi trường tích hợp để xây dựng và tinh chỉnh các mô hình HCLS. Nó tích hợp liền mạch với Amazon EMR, AWS Glue, Amazon Athena, Amazon Redshift và các dịch vụ ML của SageMaker, cho phép:
+* Tinh chỉnh mô hình bằng các bộ dữ liệu chuyên biệt của HCLS.
+* Xử lý dữ liệu đa phương thức (có cấu trúc, văn bản, hình ảnh, omics).
+* Phát triển và triển khai các ứng dụng generative AI hoàn chỉnh.
 
-2. Soạn truy vấn của bạn, sau đó trong menu **Actions**, chọn **Save** để lưu truy vấn vào vùng lưu trữ chia sẻ.  
-![](/images/3-BlogsTranslated/Blog2/img11.png)
+#### **Amazon Bedrock – Suy luận và đánh giá mô hình nhanh chóng**
+Lý tưởng để triển khai nhanh các mô hình nền tảng (FMs) mà không cần quản lý cơ sở hạ tầng. Với hơn 160 mô hình FM, các tính năng chính bao gồm:
+* **Amazon Bedrock Evaluations:** Đánh giá và so sánh các mô hình nhanh chóng.
+* Truy cập dựa trên API vào các mô hình hàng đầu.
+* Tích hợp liền mạch với SageMaker và các công cụ AWS khác.
 
-3. Quay lại phần **Project files**, nơi bạn có thể xem các file query notebook nằm trong đường dẫn S3:  
-   \[bucket\]/\[domain-id\]/\[project-id\]/shared/.
-![](/images/3-BlogsTranslated/Blog2/img12.png)
+#### **AWS HealthOmics – Tăng tốc Khám phá Khoa học**
+Tăng tốc thông tin chuyên sâu sinh học bằng các quy trình làm việc Ready2Run (từ NVIDIA, Sentieon, Element Biosciences), hỗ trợ:
+* Các Thực tiễn Tốt nhất của GATK từ Broad Institute.
+* AlphaFold để dự đoán cấu trúc protein.
+* Các đường ống khám phá thuốc độc quyền.
 
----
-
-## **Sử dụng shared storage trong Visual ETL flows**
-
-Để sử dụng tính năng **shared storage** trong **Visual ETL flows**, hãy thực hiện các bước sau:
-
-1. Chọn **Visual ETL flows** từ menu **Build**.  
-![](/images/3-BlogsTranslated/Blog2/img13.png)
-
-2. Phát triển workflow ETL của bạn và lưu mã vào dự án. 
-![](/images/3-BlogsTranslated/Blog2/img14.png)
-
-3. Quay lại phần **Project files**, nơi bạn có thể xem các file nằm trong đường dẫn S3: \[bucket\]/\[domain-id\]/\[project-id\]/shared/jobs/uploads/\<ETL name\>.
-![](/images/3-BlogsTranslated/Blog2/img15.png)
-
----
-
-## **Dọn dẹp tài nguyên**
-
-Hãy đảm bảo bạn xóa các tài nguyên SageMaker Unified Studio sau khi hoàn tất để tránh phát sinh chi phí không mong muốn. Quy trình bao gồm các bước sau:
-
-1. **Xóa các dự án (projects).**  
-2. **Xóa domain.**  
-3. **Xóa S3 bucket** có tên dạng:  
-   amazon-datazone-AWSACCOUNTID-AWSREGION-DOMAINID
+#### **Các Giải pháp Lưu trữ của AWS**
+Cơ sở hạ tầng dữ liệu an toàn và có thể mở rộng:
+* **Amazon S3:** Lưu trữ dữ liệu linh hoạt, đa năng.
+* **AWS HealthImaging:** Chuyên dụng cho hình ảnh y tế.
+* **AWS HealthOmics:** Tối ưu hóa cho dữ liệu omics.
 
 ---
 
-## **Kết luận**
+### **Kết Luận**
 
-Việc ra mắt tính năng Amazon S3 shared storage trong SageMaker là một bước tiến nữa trong việc đơn giản hóa trải nghiệm phát triển phân tích và học máy (ML) cho khách hàng. Bằng cách giảm độ phức tạp của các thao tác Git nhưng vẫn duy trì khả năng cộng tác mạnh mẽ, các nhóm có thể tập trung hơn vào việc xây dựng và triển khai các giải pháp phân tích và ML nhanh chóng hơn. Tính năng này hiện đã khả dụng tại các AWS Region có hỗ trợ SageMaker.
+Chúng tôi đã khám phá các trường hợp sử dụng chính trong ngành Y tế và Khoa học Đời sống (HCLS), nơi các mô hình generative AI chuyên biệt có thể mang lại những cải thiện đáng kể về hiệu suất kinh doanh và kết quả điều trị cho bệnh nhân.
 
-Để biết thông tin chi tiết về tính năng này, bao gồm hướng dẫn thiết lập và best practices, vui lòng tham khảo tài liệu [Unified storage in Amazon SageMaker Unified Studio](https://docs.aws.amazon.com/sagemaker-unified-studio/latest/userguide/storage.html).
+Với các công cụ như **Amazon SageMaker** và **Amazon Bedrock**, AWS cung cấp một trong những lựa chọn mô hình phong phú nhất được tùy chỉnh cho các thách thức của HCLS.
+
+**Các bước tiếp theo:**
+1.  Khám phá danh mục các mô hình generative AI trên [AWS Marketplace](https://aws.amazon.com/marketplace).
+2.  Làm việc với đội ngũ AWS để xác định mô hình phù hợp với mục tiêu lâm sàng.
+3.  Hợp tác với Kiến trúc sư Giải pháp AWS hoặc Đối tác AWS HCLS để thiết kế kiến trúc mở rộng.
+
+**Tìm hiểu thêm tại:**
+* [Pre-training genomic language models using AWS HealthOmics and Amazon SageMaker](https://aws.amazon.com/blogs/industries/pre-training-genomic-language-models-using-aws-healthomics-and-amazon-sagemaker/)
+* [John Snow Labs Medical LLMs are now available in Amazon SageMaker JumpStart](https://aws.amazon.com/blogs/machine-learning/john-snow-labs-medical-llms-are-now-available-in-amazon-sagemaker-jumpstart/)
+* [Accelerate digital pathology slide annotation workflows on AWS using H-optimus-0](https://aws.amazon.com/blogs/industries/accelerate-digital-pathology-slide-annotation-workflows-on-aws-using-h-optimus-0/)
 
 ---
 
-| ![](/images/3-BlogsTranslated/Blog2/author1.jpeg) | Hari Ramesh [Hari](https://www.linkedin.com/in/haryramesh/) là Senior Analytics Specialist Solutions Architect tại AWS. Ông tập trung vào việc xây dựng các nền tảng dữ liệu đám mây, cho phép trực tuyến theo thời gian thực, xử lý dữ liệu lớn và quản trị dữ liệu mạnh mẽ. |
-| :---- | :---- |
-| ![](/images/3-BlogsTranslated/Blog2/author2.jpg) | **Anagha Barve** [Anagha](https://www.linkedin.com/in/anagha-barve-9a86b8/) là Software Development Manager trong nhóm Amazon SageMaker Unified Studio. Nhóm của cô tập trung vào việc xây dựng các công cụ và trải nghiệm tích hợp cho các nhà phát triển bằng Amazon SageMaker Unified Studio. Trong thời gian rảnh rỗi, cô thích nấu ăn, làm vườn và du lịch. |
-| 
-| ![](/images/3-BlogsTranslated/Blog2/author3.jpg) | **Zach Mitchell** [Zach](https://www.linkedin.com/in/zachary-mitchell-ab882853/) là Sr. Big Data Architect. Anh ấy làm việc trong nhóm sản phẩm để tăng cường sự hiểu biết giữa các kỹ sư sản phẩm và khách hàng của họ đồng thời hướng dẫn khách hàng trong suốt hành trình phát triển hồ dữ liệu và các giải pháp dữ liệu khác trên các dịch vụ phân tích AWS. |
-| 
-| ![](/images/3-BlogsTranslated/Blog2/author4.jpg) | **Saurabh Bhutyani** [Saurabh](https://www.linkedin.com/in/s4saurabh/) là Principal Analytics Specialist Solutions Architect tại AWS. Anh đam mê công nghệ mới. Anh gia nhập AWS vào năm 2019 và làm việc với khách hàng để cung cấp hướng dẫn kiến ​​trúc cho việc vận hành các trường hợp sử dụng AI tạo sinh, các giải pháp phân tích có thể mở rộng và kiến ​​trúc lưới dữ liệu bằng các dịch vụ AWS như Amazon Bedrock, Amazon SageMaker, Amazon EMR, Amazon Athena, AWS Glue, AWS Lake Formation và Amazon DataZone. |
-| 
-| ![](/images/3-BlogsTranslated/Blog2/author5.jpg) | **Anchit Gupta** [Anchit](https://www.linkedin.com/in/anchitgupta92/) là Senior Product Manager cho Amazon SageMaker Studio. Cô tập trung vào việc tạo điều kiện cho các quy trình làm việc khoa học dữ liệu và kỹ thuật dữ liệu tương tác từ bên trong SageMaker Studio IDE. Trong thời gian rảnh rỗi, cô thích nấu ăn, chơi cờ bàn/bài và đọc sách. |
+| ![Malvika Viswanathan](/images/3-BlogsTranslated/Blog_AWS_HCLS/malvika.jpg) | **Malvika Viswanathan** <br> Malvika Viswanathan là Trưởng nhóm Giải pháp GenAI cho ngành Y tế và Khoa học Đời sống tại AWS. Cô có 15 năm kinh nghiệm làm việc với các tổ chức cung cấp dịch vụ, công ty bảo hiểm và tổ chức khoa học đời sống. Malvika chuyên giúp khách hàng áp dụng công nghệ mới nhất để chuyển đổi doanh nghiệp và mang lại kết quả tối ưu cho bệnh nhân. |
+| :--- | :--- |
+| ![Amrita Sarkar](/images/3-BlogsTranslated/Blog_AWS_HCLS/amrita.jpg) | **Amrita Sarkar** <br> Amrita Sarkar, Tiến sĩ, là Principal trong đội ngũ Healthcare & Life Sciences Startups tại AWS. Cô làm việc với các nhà sáng lập và nhà đầu tư để giúp các startup HCLS xây dựng ở quy mô lớn. Trước đây, cô là nhà đầu tư mạo hiểm tại Paris và đã cố vấn cho hàng trăm startup. Cô có bằng Tiến sĩ Sinh học Tính toán và MBA từ Collège des Ingénieurs. |
+| ![Stephanie Dattoli](/images/3-BlogsTranslated/Blog_AWS_HCLS/stephanie.jpg) | **Stephanie Dattoli** <br> Stephanie Dattoli là Giám đốc Toàn cầu phụ trách Marketing về Khoa học Đời sống và Genomics tại AWS. Cô chuyên sâu về giao điểm giữa khoa học đời sống và công nghệ đám mây, giúp các tổ chức đưa sản phẩm mới ra thị trường. Cô có bằng cao học về di truyền học từ Đại học Stanford. |

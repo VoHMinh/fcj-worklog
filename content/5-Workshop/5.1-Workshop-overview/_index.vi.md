@@ -1,153 +1,54 @@
 ---
-title: "Tổng Quan Workshop"
-date:
+title: "Giới thiệu"
+date: 2025-09-09
 weight: 1
 chapter: false
 pre: " <b> 5.1. </b> "
 ---
 
-#### Giới Thiệu Dự Án
+### 1. Kiến trúc tổng quan
 
-**Hệ Thống Tự Học IELTS** là một nền tảng trực tuyến toàn diện được thiết kế để hỗ trợ sinh viên trong hành trình chuẩn bị IELTS tự học. Workshop này tập trung vào việc triển khai toàn bộ hạ tầng AWS cần thiết để chạy ứng dụng này trong môi trường production.
+Nền tảng **IELTS BandUp** được xây dựng trên một kiến trúc mạnh mẽ, có tính sẵn sàng cao (High Availability) trên AWS. Hệ thống được thiết kế để xử lý lưu lượng người dùng một cách an toàn, đồng thời đảm bảo độ trễ thấp khi truy cập tài liệu học tập và các tính năng AI.
 
-#### Các Thành Phần Hệ Thống
+### 2. Các dịch vụ AWS cốt lõi
 
-Nền tảng bao gồm năm module chức năng chính:
+Để đạt được các mục tiêu về khả năng mở rộng, bảo mật và hiệu năng, chúng tôi sử dụng các nhóm dịch vụ chính sau:
 
-| Module | Mô Tả |
-|--------|-------------|
-| **Quản Lý Người Dùng** | Xác thực đa cấp (Guest, Member, Premium, Admin), OAuth integration |
-| **Nền Tảng Blog** | Nội dung giáo dục do cộng đồng đóng góp với CRUD, filtering, comments |
-| **Phòng Học** | Không gian ảo với WebRTC video/voice, Pomodoro timer, screen sharing |
-| **Bài Thi Thử** | Bài thi IELTS mô phỏng với AI đánh giá Speaking/Writing |
-| **Hệ Thống Flashcard** | Flashcards thông minh với AI generation dựa trên RAG |
+#### Mạng & Phân phối nội dung (Networking)
 
-#### Tổng Quan Kiến Trúc
+-   **Amazon VPC (Virtual Private Cloud):** Lớp mạng nền tảng. Chúng tôi sử dụng VPC tùy chỉnh với các **Public Subnet** và **Private Subnet** riêng biệt để kiểm soát chặt chẽ luồng truy cập.
+-   **NAT Gateway:** Cho phép các tài nguyên trong Private Subnet (như Backend) kết nối ra Internet (để tải thư viện, gọi API ngoài) mà không để lộ IP ra môi trường Public.
+-   **Application Load Balancer (ALB):** Phân phối lưu lượng truy cập ứng dụng đến các container trên nhiều Availability Zones (AZ), đảm bảo khả năng chịu lỗi của hệ thống.
+-   **Amazon Route 53:** Dịch vụ DNS giúp định tuyến tên miền và quản lý lưu lượng truy cập người dùng.
 
-Kiến trúc tuân theo các nguyên tắc AWS Well-Architected Framework:
+#### Tính toán & Container (Compute)
 
-**1. Lớp Mạng (VPC)**
-- VPC tùy chỉnh trải rộng trên hai Availability Zones (AZ-1 và AZ-2)
-- Public subnets cho ALB, NAT Gateways
-- Private subnets cho ECS tasks, RDS, ElastiCache
-- Security Groups và Network ACLs cho defense in depth
+-   **Amazon ECS (Elastic Container Service) với Fargate:** Công cụ điều phối container serverless. Chúng tôi sử dụng Fargate để vận hành cả **Next.js Frontend** và **Spring Boot Backend**, giúp loại bỏ gánh nặng quản lý máy chủ vật lý (EC2).
+-   **Amazon ECR (Elastic Container Registry):** Kho lưu trữ container được quản lý hoàn toàn, nơi chứa các Docker image của ứng dụng trước khi deploy.
 
-**2. Lớp Ứng Dụng (ECS)**
-- **Frontend**: Ứng dụng Next.js 14+ được containerized
-- **Backend**: Spring Boot 3.x monolithic REST API
-- Mô hình triển khai active-passive cho high availability
-- Auto Scaling dựa trên CPU/memory utilization
+#### Cơ sở dữ liệu & Lưu trữ (Database & Storage)
 
-**3. Lớp Dữ Liệu**
-- **Amazon RDS PostgreSQL**: Database chính với Multi-AZ standby
-- **Amazon ElastiCache (Redis)**: Session management và caching
-- **Amazon S3**: Media storage với CloudFront CDN
-- **Amazon DynamoDB**: Lưu trữ kết quả AI assessment
+-   **Amazon RDS (Relational Database Service):** Sử dụng PostgreSQL với mô hình **Multi-AZ** (Primary và Standby) để đảm bảo an toàn dữ liệu và khả năng khôi phục sau thảm họa.
+-   **Amazon ElastiCache (Redis):** Đóng vai trò bộ nhớ đệm (cache) trong bộ nhớ, giúp tăng tốc độ truy vấn và quản lý phiên đăng nhập (session) của người dùng.
+-   **Amazon S3 (Simple Storage Service):** Lưu trữ tài nguyên tĩnh, file media (file nghe) và dữ liệu người dùng tải lên với độ bền cao.
 
-**4. Lớp Dịch Vụ AI (Serverless)**
-- **Amazon API Gateway**: Entry point cho AI requests
-- **Amazon SQS**: Message queue cho xử lý bất đồng bộ
-- **AWS Lambda**: Ba functions chuyên biệt:
-  - Writing Assessment (đánh giá grammar, vocabulary, coherence)
-  - Speaking Assessment (transcription + evaluation)
-  - Flashcard Generation (RAG-based với Titan Embeddings)
-- **Amazon Bedrock**: Gemma 3 12B model và Titan Embeddings
-- **Google Gemini API**: Smart query generation
+#### AI & Tích hợp Serverless
 
-![Sơ Đồ Kiến Trúc](/images/2-Proposal/AWS-Bandup-Architecture.png)
+Để vận hành các tính năng thông minh của BandUp (Chấm điểm Writing/Speaking, Tạo Flashcard), chúng tôi áp dụng kiến trúc Serverless:
 
-#### Luồng Traffic
+-   **Amazon Bedrock & Google Gemini API:** Các mô hình Generative AI cốt lõi dùng để phân tích bài làm và đưa ra phản hồi cá nhân hóa.
+-   **AWS Lambda:** Các hàm tính toán serverless đóng vai trò điều phối quy trình AI, kết nối ứng dụng với các mô hình ngôn ngữ lớn.
+-   **Amazon SQS (Simple Queue Service):** Hàng đợi thông điệp giúp phân tách (decouple) backend và lớp xử lý AI, cho phép xử lý bất đồng bộ và tránh quá tải hệ thống.
+-   **Amazon API Gateway:** Cổng giao tiếp bảo mật (RESTful API) để gọi các dịch vụ AI từ ứng dụng chính.
 
-Luồng được đánh số sau tương ứng với sơ đồ kiến trúc:
+#### DevOps & CI/CD
 
-| Bước | Thành Phần | Hành Động |
-|------|-----------|--------|
-| **1** | User | Truy cập `https://bandup.bughunters.site` |
-| **2** | Route 53 | DNS resolution với health checks |
-| **2** | ACM | SSL/TLS certificate validation |
-| **3** | AWS WAF | Web Application Firewall inspection |
-| **3** | ALB | Application Load Balancer nhận traffic |
-| **4** | Traffic Division | ALB route đến active AZ (AZ-1) |
-| **5** | ECS Services | Frontend và Backend containers xử lý requests |
-| **6** | Service Connect | Internal service discovery giữa FE và BE |
-| **7** | ElastiCache | Redis caching layer |
-| **8** | RDS Primary | PostgreSQL database queries |
-| **9** | API Gateway | AI service requests entry point |
-| **10** | Queue | SQS nhận async AI processing requests |
-| **11** | SQS Queues | Ba queues riêng cho Writing, Speaking, Flashcard |
-| **12** | Lambda Functions | Xử lý Writing/Speaking evaluation, Flashcard generation |
-| **13** | Secrets Manager | Secure credential retrieval |
-| **14** | Amazon Bedrock | AI model inference (Gemma 3 12B) |
-| **15** | DynamoDB | Lưu AI results |
-| **16** | CloudWatch | Logs và metrics collection |
+-   **AWS CodePipeline:** Tự động hóa quy trình phát hành phần mềm, đảm bảo cập nhật nhanh chóng và tin cậy.
+-   **AWS CodeBuild:** Biên dịch mã nguồn, chạy kiểm thử và đóng gói phần mềm (Docker images) sẵn sàng cho việc triển khai.
 
-#### Chi Tiết Kiến Trúc Dịch Vụ AI
+#### Bảo mật (Security)
 
-Dịch vụ AI triển khai theo mô hình fully serverless:
+-   **AWS WAF (Web Application Firewall):** Bảo vệ ứng dụng web khỏi các lỗ hổng bảo mật phổ biến.
+-   **AWS Secrets Manager:** Lưu trữ và quản lý an toàn các thông tin nhạy cảm (mật khẩu database, API keys) trong suốt vòng đời ứng dụng.
 
-```
-User Request → API Gateway → SQS Queue → Lambda Function → AI Model → DynamoDB → Response
-```
-
-**Ba Lambda Functions:**
-
-1. **Writing Evaluate**: Phân tích bài viết IELTS
-   - Đánh giá grammar và vocabulary
-   - Task achievement scoring
-   - Coherence và cohesion evaluation
-   - Band score prediction (0-9)
-
-2. **Speaking Evaluate**: Xử lý audio recordings
-   - Speech-to-text transcription
-   - Pronunciation analysis
-   - Fluency và coherence scoring
-   - Lexical resource evaluation
-
-3. **Flashcard Generate**: RAG-based intelligent flashcard creation
-   - Document chunking và embedding (Titan V2)
-   - Smart query generation (Google Gemini)
-   - Context-aware flashcard generation
-   - Storage trong DynamoDB
-
-#### CI/CD Pipeline
-
-Pipeline triển khai tự động hóa toàn bộ quy trình release:
-
-```
-Developer → GitLab/GitHub → CodePipeline → CodeBuild → ECR → ECS
-```
-
-1. Developer tạo tag mới/push code
-2. GitLab Webhook trigger AWS CodePipeline
-3. CodeBuild compile code và run tests
-4. Docker images được build và push lên ECR
-5. ECS service cập nhật với task definitions mới
-6. Rolling deployment đảm bảo zero-downtime updates
-
-#### Chiến Lược Tối Ưu Chi Phí
-
-Kiến trúc này được thiết kế để tiết kiệm chi phí:
-
-- **ECS Fargate**: Chỉ trả tiền cho containers đang chạy
-- **Active-Passive Multi-AZ**: Standby resources tiêu thụ chi phí tối thiểu
-- **Lambda**: Pay-per-invocation cho AI processing
-- **DynamoDB On-Demand**: Scales với actual usage
-- **S3 Lifecycle Policies**: Automatic tiering sang storage rẻ hơn
-- **Reserved Capacity**: Available cho predictable workloads
-
-#### Mục Tiêu Học Tập Workshop
-
-Sau khi hoàn thành workshop này, bạn sẽ học được:
-
-1. **Network Design**: Cách tạo secure VPC với public/private subnets
-2. **Container Orchestration**: Triển khai ứng dụng trên ECS Fargate
-3. **Database Management**: Thiết lập RDS Multi-AZ và ElastiCache
-4. **Serverless Architecture**: Xây dựng event-driven AI processing pipelines
-5. **CI/CD Best Practices**: Automated deployments với CodePipeline
-6. **Security Implementation**: IAM roles, Secrets Manager, WAF configuration
-7. **Observability**: CloudWatch monitoring và alerting
-
-#### Bước Tiếp Theo
-
-Tiến hành đến [Prerequisites](../5.2-Prerequisites/) để thiết lập môi trường trước khi bắt đầu triển khai thực hành.
-
+![Sơ đồ kiến trúc](/images/2-Proposal/AWS-Bandup-Architecture.png)

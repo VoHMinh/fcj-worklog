@@ -1,166 +1,93 @@
 ﻿---
-title: "Amazon SageMaker introduces Amazon S3 based shared storage for enhanced project collaboration"
-date: 2025-09-16
-weight: 2
+title: "AWS for Industries: 150 Models and Counting: Your Guide to Generative AI Models for Healthcare and Life Sciences"
+date: 2025-05-07
+weight: 12
 chapter: false
-pre: " <b> 3.2. </b> "
+pre: " <b> 3.3. </b> "
 ---
 
-Published: 2025‑09‑16 – Authors: Hari Ramesh, Anagha Barve, Anchit Gupta, Saurabh Bhutyani and Zach Mitchell in [Amazon SageMaker Unified Studio](https://aws.amazon.com/blogs/big-data/category/analytics/amazon-sagemaker-unified-studio/), [Amazon Simple Storage Service (S3)](https://aws.amazon.com/blogs/big-data/category/storage/amazon-simple-storage-services-s3/), [Announcements](https://aws.amazon.com/blogs/big-data/category/post-types/announcements/), [Intermediate (200)](https://aws.amazon.com/blogs/big-data/category/learning-levels/intermediate-200/),[Technical How-to](https://aws.amazon.com/blogs/big-data/category/post-types/technical-how-to/).
-
-AWS recently announced that [Amazon SageMaker](https://aws.amazon.com/sagemaker/) now provides [Amazon Simple Storage Service](https://aws.amazon.com/s3) (Amazon S3) as the default file storage option for new projects in [Amazon SageMaker Unified Studio](https://aws.amazon.com/sagemaker/unified-studio/). This feature addresses the deprecation of [AWS CodeCommit](https://aws.amazon.com/codecommit/), while providing teams with a simple and consistent way to collaborate on project files across all of SageMaker's integrated development tools.
-
-This new Amazon S3 storage option provides the following benefits:
-
-* **Simple collaboration** – Share files directly between project members without Git operations.  
-* **Consistent access** – Files are accessed consistently across SageMaker tools (JupyterLab, Query Editor, Visual ETL).  
-* **Clear workspace separation** – Personal storage separation is available with [Amazon Elastic Block Store](https://aws.amazon.com/ebs) (Amazon EBS) volumes.  
-* **Global availability** – Supported in all AWS Regions where SageMaker is available.
-
-Although Amazon S3 is the default option for file storage, you can still use Git version control if you want more robust source code management capabilities.
-
-In this article, we will discuss the new feature and how to get started using **Amazon S3 shared storage** in **SageMaker Unified Studio**.
+Post date: May 07, 2025 – Authors: Malvika Viswanathan, Amrita Sarkar, and Stephanie Dattoli in [Amazon Athena](https://aws.amazon.com/athena/), [Amazon Bedrock](https://aws.amazon.com/bedrock/), [Healthcare](https://aws.amazon.com/health/), [Industries](https://aws.amazon.com/industries/).
 
 ---
 
-**Solution Overview**
+**Generative AI** is reshaping Healthcare and Life Sciences (HCLS). From AstraZeneca and Pfizer to 3M and the Allen Institute, innovators are using AI to drive drug discovery, boost scientist productivity, and streamline clinical workflows.
 
-When you create a new **SageMaker Unified Studio domain**, the service automatically configures **Amazon S3** as the default storage option for projects. Each project receives a dedicated shared storage area in Amazon S3, available to project members, with the structure:
+As adoption grows, so does the need for models tailored to unique HCLS challenges—from summarizing medical text and classifying DICOM images to improving drug discovery efficiency. Yet, many organizations still rely on word-of-mouth or industry events to identify the right models, causing both friction and delays in the AI development lifecycle.
 
-\[bucket\]/\[domain-id\]/\[project-id\]/shared/.
+That’s where **Amazon Web Services (AWS) Marketplace** comes in. As the largest curated catalog of AI models for healthcare and life sciences, it provides a pre-approved, enterprise-grade procurement path to streamline deployment at scale, accelerating the discovery of industry-specialized models and their rapid integration into clinical, research, or operational workflows. Whether you’re looking to improve cohort selection, accelerate drug development, or scale imaging workflows, AWS Marketplace makes adopting the right generative AI model easy—and fast.
 
-### SageMaker tools (JupyterLab and Code Editor) provide users with:
+Many customers are turning to **Agentic AI** to enable autonomous workflows across the HCLS value chain. Using the right model can help quickly deploy agents to make intelligent, context-aware decisions without model training.
 
-* A **personal EBS volume** for private work in JupyterLab and Code Editor.  
-* A mounted shared folder containing the project's shared storage space on Amazon S3.  
-* Clear separation between personal and shared spaces.
-
-### Shared storage access capabilities in SageMaker integrated development tools:
-
-* **JupyterLab** and **Code Editor** display shared files alongside personal files.  
-* **Query Editor** filters relevant SQL notebooks.  
-* **Visual ETL** provides direct access to shared ETL (extract, transform, load) workflows.
-
-Files saved to the shared folder are immediately available and visible to project members. Users can continue working with personal files in **EBS volumes** (for example in JupyterLab and Code Editor) and can move files to shared storage when ready to collaborate. If you want to use Git for collaboration, you can still do so by integrating the project with GitHub, GitLab, or repositories managed on Bitbucket.
+We’ll highlight some of the most relevant generative AI models available on AWS Marketplace and explore the AWS services that help operationalize AI at scale in HCLS environments.
 
 ---
 
-## **Migration options and version control**
+### **Finding the Right Model**
 
-For teams currently using **Amazon CodeCommit**, existing projects will continue to work normally. New projects will default to **Amazon S3** storage. If you want **version control** functionality for Amazon S3-based projects, you can enable **versioning directly** in Amazon S3.
+With many organizations having laid the groundwork for generative AI adoption, we are seeing a distinct shift. Customers are increasingly moving to industry-specialized models to solve more complex challenges. Some customers are also looking to enhance existing applications with deep-domain models that offer higher accuracy, improved safety, and better outcomes.
 
----
+Here are a few standout examples of how leading organizations are leveraging these specialized models (all available on AWS Marketplace):
 
-## **Prerequisites**
-
-Before following the instructions in the next section, you need to complete the following prerequisites:
-
-1. [Sign up for an AWS account](https://docs.aws.amazon.com/sagemaker-unified-studio/latest/adminguide/setting-up.html#sign-up-for-aws)**.**  
-2. [Create a user with administrative access](https://docs.aws.amazon.com/sagemaker-unified-studio/latest/adminguide/setting-up.html#create-an-admin)**.**  
-3. [Enable IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/enable-identity-center.html) in the same **AWS Region** where you want to create a **SageMaker Unified Studio domain**. Confirm which Regions SageMaker Unified Studio is currently available in. Set up an **Identity Provider (IdP)** and synchronize identities and groups with **IAM Identity Center**. For more details, see [IAM Identity Center Identity source tutorials](https://docs.aws.amazon.com/singlesignon/latest/userguide/tutorials.html).
-
----
-
-## **Getting started with Amazon S3 Shared Storage**
-
-To get started with **Amazon S3 shared storage**, complete the following steps:
-
-1. Create a new **SageMaker Unified Studio domain**.  
-
-![](/images/3-BlogsTranslated/Blog2/img1.png)
-
-2. Create a new project (Amazon S3 storage will be selected by default as the file storage option).  
-![](/images/3-BlogsTranslated/Blog2/img2.png)
-
-3. Open the new project and select **JupyterLab** from the **Build** menu.  
-![](/images/3-BlogsTranslated/Blog2/img3.png)
-
-4. Save the new notebook you just created.  
-![](/images/3-BlogsTranslated/Blog2/img4.png)
-
-5. Rename the file as desired.  
-   ![](/images/3-BlogsTranslated/Blog2/img5.png)
-
-
-After the project is saved, users in the project can view the saved notebook in the **Project files** section at the S3 path:
-
-\[bucket\]/\[domain-id\]/\[project-id\]/shared/.
-
----
-![](/images/3-BlogsTranslated/Blog2/img6.png)
-
-### **Enable version control with Git**
-
-To enable **version control** with Git, follow these steps:
-
-1. Access the **SageMaker console** and create a new **project profile**.  
-![](/images/3-BlogsTranslated/Blog2/img7.png)
-
-2. Provide all necessary information for your project profile.  
-![](/images/3-BlogsTranslated/Blog2/img8.png)
-
-3. In the **Project files storage** section, the **Amazon S3** option is selected by default. If you want to enable version control for the project, you can use existing Git repository connections by selecting **Git repository**.
-![](/images/3-BlogsTranslated/Blog2/img9.png)
-
+* **Bio-FMs for Novel Drug Identification:** Generative AI models can help predict critical absorption, distribution, metabolism, and excretion (ADME) properties of drug candidates. By analyzing molecular structures and physicochemical data, these models can forecast how a compound will behave in the body. **Evolutionary Scales’ ESMC models** are a prime example of this category.
+* **Medical Operations and Patient Safety:** Generative AI plays a critical role in clinical trial safety monitoring, particularly in identifying potential adverse drug reactions (ADRs). The **John Snow Labs Adverse Drug Events (ADE)** model is trained on over 400 healthcare entity types, enabling it to accurately detect ADRs in unstructured data sources like social media and clinical notes.
+* **Clinical Trial Design:** **QuantHealth** models predict clinical trial endpoints and enrollment. QuantHealth possesses a vast library of clinical development models trained on data from millions of patient lives, predicting safety and efficacy with 85% accuracy across oncology, cardiovascular, and autoimmune diseases. These models will be available on AWS Marketplace in May 2025.
+* **Clinical Trial Optimization:** Life sciences organizations are increasingly looking to large language models (LLMs) on **Amazon Bedrock**, such as **Anthropic’s Claude**, to streamline the creation of clinical trial documentation (e.g., randomized controlled trial protocols). This automation helps research teams focus on study design and patient recruitment.
+* **Computer Vision in Clinical Settings:** Used for a range of applications from PPE monitoring to assisted diagnostics. For example, **VITech Lab's Diabetic Retinopathy Detector** analyzes retinal scans to identify and grade diabetes-related anomalies, helping prioritize urgent cases.
+* **Pathology Image Analysis for Early Cancer Detection:** The **Bioptimus H-Optimus-O** model is the world’s largest open-source foundation model for pathology, with 1.1 billion parameters. It enables patch-level classification of pathology slides, supporting early cancer detection and reducing diagnostic delays.
+* **Medical Summarization for Clinical Workflows:** Models like **John Snow Medical LLMs** are purpose-built to summarize discharge notes, radiology reports, and pathology results. They help clinicians navigate through dense, unstructured data.
+* **AI-Assisted Diagnostics and Treatment Planning:** **Palmyra-Med 70B** by Writer is an LLM specifically designed for healthcare, achieving a biomedical benchmark score of 85.87%. It performs advanced entity recognition, extracting medical concepts from unstructured text to support clinical decision-making.
 
 ---
 
-### **Using shared storage in Query Editor**
+### **Discover, Refine, and Deploy Generative AI Models in HCLS**
 
-To use the **shared storage** feature in **Query Editor**, follow these steps:
+Once you’ve identified the right model, AWS provides a full suite of tools to discover, refine, and deploy them in a secure and compliant environment.
 
-1. Select **Query Editor** from the **Build** menu.  
-![](/images/3-BlogsTranslated/Blog2/img10.png)
+#### **Amazon SageMaker Unified Studio – Complete Model Development and Tuning**
+Provides a unified, integrated environment designed specifically for building and refining HCLS models. It integrates seamlessly with Amazon EMR, AWS Glue, Amazon Athena, Amazon Redshift, and SageMaker ML services, allowing teams to:
+* Fine-tune models using specialized HCLS datasets.
+* Handle multimodal data (structured, text, images, omics).
+* Develop and deploy full-stack generative AI applications.
 
-2. Compose your query, then in the **Actions** menu, select **Save** to save the query to shared storage.  
-![](/images/3-BlogsTranslated/Blog2/img11.png)
+#### **Amazon Bedrock – Rapid Model Inference and Evaluation**
+Ideal for quickly deploying and operationalizing pre-trained foundation models (FMs) without managing infrastructure. With over 160 FMs, key features include:
+* **Amazon Bedrock Evaluations:** Quickly evaluate and compare models.
+* API-based access to leading models.
+* Seamless integration with SageMaker and other AWS tools.
 
-3. Return to the **Project files** section, where you can view query notebook files at the S3 path:  
-   \[bucket\]/\[domain-id\]/\[project-id\]/shared/.
-![](/images/3-BlogsTranslated/Blog2/img12.png)
+#### **AWS HealthOmics – Accelerating Scientific Discovery**
+Accelerates biological insights with Ready2Run workflows (from NVIDIA, Sentieon, Element Biosciences), supporting:
+* Broad Institute GATK Best Practices.
+* AlphaFold for protein structure prediction.
+* Proprietary drug discovery pipelines.
 
----
-
-## **Using shared storage in Visual ETL flows**
-
-To use the **shared storage** feature in **Visual ETL flows**, follow these steps:
-
-1. Select **Visual ETL flows** from the **Build** menu.  
-![](/images/3-BlogsTranslated/Blog2/img13.png)
-
-2. Develop your ETL workflow and save the code to the project. 
-![](/images/3-BlogsTranslated/Blog2/img14.png)
-
-3. Return to the **Project files** section, where you can view files at the S3 path: \[bucket\]/\[domain-id\]/\[project-id\]/shared/jobs/uploads/\<ETL name\>.
-![](/images/3-BlogsTranslated/Blog2/img15.png)
-
----
-
-## **Cleanup**
-
-Make sure you delete SageMaker Unified Studio resources after completion to avoid unexpected charges. The process includes the following steps:
-
-1. **Delete projects.**  
-2. **Delete domain.**  
-3. **Delete S3 bucket** with the name format:  
-   amazon-datazone-AWSACCOUNTID-AWSREGION-DOMAINID
+#### **AWS Storage Solutions**
+Secure, scalable data infrastructure:
+* **Amazon S3:** Versatile storage for structured and unstructured data.
+* **AWS HealthImaging:** Specialized for cloud-native medical imaging.
+* **AWS HealthOmics:** Optimized for storing and analyzing omics data.
 
 ---
 
-## **Conclusion**
+### **Conclusion**
 
-The launch of Amazon S3 shared storage in SageMaker is another step in simplifying the analytics and machine learning (ML) development experience for customers. By reducing the complexity of Git operations while maintaining strong collaboration capabilities, teams can focus more on building and deploying analytics and ML solutions faster. This feature is now available in AWS Regions where SageMaker is supported.
+We have explored key use cases in Healthcare and Life Sciences (HCLS) where specialized generative AI models can drive significant improvements in business performance and patient outcomes.
 
-For detailed information about this feature, including setup instructions and best practices, please refer to the [Unified storage in Amazon SageMaker Unified Studio](https://docs.aws.amazon.com/sagemaker-unified-studio/latest/userguide/storage.html) documentation.
+With tools like **Amazon SageMaker** and **Amazon Bedrock**, AWS offers one of the richest selections of models tailored to HCLS challenges.
+
+**Next Steps:**
+1.  Explore the catalog of generative AI models on [AWS Marketplace](https://aws.amazon.com/marketplace).
+2.  Work with AWS teams to identify models that align with your clinical goals.
+3.  Collaborate with AWS Solution Architects or AWS HCLS Partners to design scalable architectures.
+
+**Learn more at:**
+* [Pre-training genomic language models using AWS HealthOmics and Amazon SageMaker](https://aws.amazon.com/blogs/industries/pre-training-genomic-language-models-using-aws-healthomics-and-amazon-sagemaker/)
+* [John Snow Labs Medical LLMs are now available in Amazon SageMaker JumpStart](https://aws.amazon.com/blogs/machine-learning/john-snow-labs-medical-llms-are-now-available-in-amazon-sagemaker-jumpstart/)
+* [Accelerate digital pathology slide annotation workflows on AWS using H-optimus-0](https://aws.amazon.com/blogs/industries/accelerate-digital-pathology-slide-annotation-workflows-on-aws-using-h-optimus-0/)
 
 ---
 
-| ![](/images/3-BlogsTranslated/Blog2/author1.jpeg) | Hari Ramesh [Hari](https://www.linkedin.com/in/haryramesh/) is a Senior Analytics Specialist Solutions Architect at AWS. He focuses on building cloud data platforms that enable real-time online, big data processing, and robust data governance. |
-| :---- | :---- |
-| ![](/images/3-BlogsTranslated/Blog2/author2.jpg) | **Anagha Barve** [Anagha](https://www.linkedin.com/in/anagha-barve-9a86b8/) is a Software Development Manager in the Amazon SageMaker Unified Studio team. Her team focuses on building integrated tools and experiences for developers using Amazon SageMaker Unified Studio. In her spare time, she enjoys cooking, gardening, and traveling. |
-| 
-| ![](/images/3-BlogsTranslated/Blog2/author3.jpg) | **Zach Mitchell** [Zach](https://www.linkedin.com/in/zachary-mitchell-ab882853/) is a Sr. Big Data Architect. He works in the product team to enhance understanding between product engineers and their customers while guiding customers throughout their data lake and other data solution development journey on AWS analytics services. |
-| 
-| ![](/images/3-BlogsTranslated/Blog2/author4.jpg) | **Saurabh Bhutyani** [Saurabh](https://www.linkedin.com/in/s4saurabh/) is a Principal Analytics Specialist Solutions Architect at AWS. He is passionate about new technology. He joined AWS in 2019 and works with customers to provide architectural guidance for operating generative AI use cases, scalable analytics solutions, and data mesh architectures using AWS services such as Amazon Bedrock, Amazon SageMaker, Amazon EMR, Amazon Athena, AWS Glue, AWS Lake Formation, and Amazon DataZone. |
-| 
-| ![](/images/3-BlogsTranslated/Blog2/author5.jpg) | **Anchit Gupta** [Anchit](https://www.linkedin.com/in/anchitgupta92/) is a Senior Product Manager for Amazon SageMaker Studio. She focuses on facilitating interactive data science and data engineering workflows from within the SageMaker Studio IDE. In her spare time, she enjoys cooking, playing board/card games, and reading. |
+| ![Malvika Viswanathan](/images/3-BlogsTranslated/Blog_AWS_HCLS/malvika.jpg) | **Malvika Viswanathan** <br> Malvika Viswanathan is the GenAI Solutions Lead for Healthcare and Life Sciences at AWS. She has 15 years of experience working with provider organizations, insurers, and life sciences entities. Malvika specializes in helping customers apply the latest technology to transform their businesses and deliver optimal patient outcomes. |
+| :--- | :--- |
+| ![Amrita Sarkar](/images/3-BlogsTranslated/Blog_AWS_HCLS/amrita.jpg) | **Amrita Sarkar** <br> Amrita Sarkar, PhD, is a Principal in the Healthcare & Life Sciences Startups team at AWS. She works with founders and investors to help HCLS startups build at scale. Previously, she was a venture capitalist based in Paris and has mentored hundreds of startups. She holds a PhD in Computational Biology and an MBA from Collège des Ingénieurs. |
+| ![Stephanie Dattoli](/images/3-BlogsTranslated/Blog_AWS_HCLS/stephanie.jpg) | **Stephanie Dattoli** <br> Stephanie Dattoli is the Worldwide Head of Life Sciences and Genomics Marketing at AWS. Specializing in the intersection of life sciences and cloud technology, she helps organizations bring new products to market. She holds a graduate certificate in genetics from Stanford University. |

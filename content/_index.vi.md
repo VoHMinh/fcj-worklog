@@ -7,15 +7,15 @@ chapter: false
 
 # Báo cáo thực tập
 ### Thông tin sinh viên:
-&emsp; **Họ và tên:** Nguyễn Quốc Bảo
+&emsp; **Họ và tên:** Võ Hoàng Minh
 
-&emsp; **Số điện thoại:** 0965147679
+&emsp; **Số điện thoại:** 0826400643
 
-&emsp; **Email:** quocbao0905461606@gmail.com
+&emsp; **Email:** minh7n3@gmail.com
 
 &emsp; **University:** FPT University
 
-&emsp; **Ngành:** Trí tuệ nhân tạo
+&emsp; **Ngành:** Kỹ thuật phần mềm 
 
 &emsp; **Lớp:** AWS082025
 
