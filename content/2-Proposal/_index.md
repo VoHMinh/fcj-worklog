@@ -824,29 +824,7 @@ Three specialized Lambda functions process different types of AI tasks, each opt
 **Operating Costs (Monthly)**
 
 **Infrastructure & Hosting (AWS):**
-- **Amazon ECS (Fargate)**:
-  - 2 tasks (Next.js + Spring Boot) in active AZ-1: $30/month
-  - 2 standby tasks in passive AZ-2 (minimal usage): $10/month
-  - Application Load Balancer: $25/month
-- **Amazon RDS PostgreSQL (Multi-AZ active-passive)**:
-  - db.t3.medium instance (primary + standby): $85/month
-  - Storage (100 GB): $12/month
-- **Amazon ElastiCache (Redis)**:
-  - cache.t3.micro: $15/month
-- **Amazon S3**:
-  - Storage (50 GB): $1.15/month
-  - Data transfer: $5/month
-- **Amazon CloudFront (CDN)**: $10/month
-- **Amazon CloudWatch**: $10/month
-- **Amazon API Gateway**: $3.50/month (1M requests)
-- **Amazon SQS**: $0.40/month (1M requests)
-- **AWS Lambda**: $5/month (3 functions, 1M requests, 512MB memory)
-- **Amazon DynamoDB**: $5/month (25 GB storage, 25 RCU/WCU)
-- **Amazon Bedrock (Titan V2 Embeddings)**: $10/month (estimated usage)
-- **Amazon OpenSearch Service** (optional, for vector store): $15/month (t3.small.search)
-- **Data Transfer (outbound)**: $15/month
-- **VPC & Networking**: $5/month
-- **Subtotal AWS Infrastructure: $290.90/month**
+- [AWS Infrastructure & Hosting](https://calculator.aws/#/estimate?key=new&id=12ba5685fc9a8db7fe70ac3c98e96e5d991f0386)
 
 **Third-party Services:**
 - **Google Gemini Flash API**: Free tier
@@ -858,24 +836,24 @@ Three specialized Lambda functions process different types of AI tasks, each opt
 - Domain & SSL renewal: $0.08/month (amortized from $1/year, SSL via AWS Certificate Manager - Free)
 - **Subtotal Other: $15.08/month**
 
-**Total Monthly Operating Costs: $305.98/month**
+**Total Monthly Operating Costs: $103.66/month**
 
 **Annual Budget Summary**
 
 **Development Phase (3 Months):**
 - Development costs: $1 (one-time, domain only)
-- Operating costs (3 months): $917.94 ($305.98 × 3 months)
-- **Total Development Phase: $918.94**
+- Operating costs (3 months): $310.98 ($103.66 × 3 months)
+- **Total Development Phase: $311.98**
 
 **Year 1 (After Launch):**
 - Development costs: $1 (one-time, domain only)
-- Operating costs: $3,671.76 ($305.98 × 12 months)
-- **Total Year 1: $3,672.76**
+- Operating costs: $1,243.92 ($103.66 × 12 months)
+- **Total Year 1: $1,244.92**
 
 **Year 2+ (Annual Recurring):**
-- Operating costs: $3,671.76/year
+- Operating costs: $1,243.92/year
 - Domain renewal: $1/year
-- **Total Annual: $3,672.76**
+- **Total Annual: $1,244.92**
 
 **Revenue Projections (Subscription Model)**
 
@@ -887,16 +865,16 @@ Three specialized Lambda functions process different types of AI tasks, each opt
 **Conservative Revenue Estimate (Year 1):**
 - Month 6-12: Average 100 Premium + 200 Members
 - Revenue: (100 × $15 + 200 × $5) × 7 months = $17,500
-- Operating costs (Year 1): $3,671.76
-- **Net Profit Year 1: $13,828.24**
+- Operating costs (Year 1): $1,243.92
+- **Net Profit Year 1: $16,256.08**
 - Break-even: Month 1 after launch
 
 **Optimistic Revenue Estimate (Year 2):**
 - 500 Premium + 1,000 Members
 - Monthly revenue: $12,500
 - Annual revenue: $150,000
-- Operating costs: $3,671.76
-- **Net Profit Year 2: $146,328.24**
+- Operating costs: $1,243.92
+- **Net Profit Year 2: $148,756.08**
 - Profit margin: ~97.6% after operating costs
 
 **Cost Optimization Strategies:**
@@ -1120,3 +1098,7 @@ Three specialized Lambda functions process different types of AI tasks, each opt
 - User retention: 60%+ monthly active users
 - NPS Score: 50+ (indicating strong user satisfaction)
 - Average IELTS score improvement: 0.5-1.0 band increase
+
+## Project Planning
+
+<iframe src="/Bandup-Proposal.pdf" width="100%" height="800" style="border:0;"></iframe>

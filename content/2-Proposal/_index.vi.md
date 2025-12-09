@@ -290,23 +290,7 @@ Nền tảng sử dụng kiến trúc web full-stack hiện đại được thi�
 **Chi Phí Vận Hành (Hàng Tháng)**
 
 **Hạ Tầng & Hosting (AWS):**
-- **Amazon ECS (Fargate)**:
-  - 2 task (Next.js + Spring Boot) ở AZ-1 hoạt động: $30/tháng
-  - 2 task dự phòng ở AZ-2 thụ động (sử dụng tối thiểu): $10/tháng
-  - Application Load Balancer: $25/tháng
-- **Amazon RDS PostgreSQL (Multi-AZ active-passive)**:
-  - Instance db.t3.medium (primary + standby): $85/tháng
-  - Lưu trữ (100 GB): $12/tháng
-- **Amazon ElastiCache (Redis)**:
-  - cache.t3.micro: $15/tháng
-- **Amazon S3**:
-  - Lưu trữ (50 GB): $1.15/tháng
-  - Truyền dữ liệu: $5/tháng
-- **Amazon CloudFront (CDN)**: $10/tháng
-- **Amazon CloudWatch**: $10/tháng
-- **Truyền Dữ Liệu (outbound)**: $15/tháng
-- **VPC & Networking**: $5/tháng
-- **Tổng Phụ Hạ Tầng AWS: $222/tháng**
+- [Hạ Tầng AWS & Hosting](https://calculator.aws/#/estimate?key=new&id=12ba5685fc9a8db7fe70ac3c98e96e5d991f0386)
 
 **Dịch Vụ Bên Thứ Ba:**
 - **Google Gemini Flash API**: Gói miễn phí
@@ -318,22 +302,22 @@ Nền tảng sử dụng kiến trúc web full-stack hiện đại được thi�
 - Gia hạn tên miền & SSL: $0.08/tháng (phân bổ từ $1/năm, SSL qua AWS Certificate Manager - Miễn phí)
 - **Tổng Phụ Khác: $15.08/tháng**
 
-**Tổng Chi Phí Vận Hành Hàng Tháng: $237.08/tháng**
+**Tổng Chi Phí Vận Hành Hàng Tháng: $103.66/tháng**
 
 **Tóm Tắt Ngân Sách Hàng Năm**
 
 **Giai Đoạn Phát Triển (3 Tháng):**
 - Chi phí phát triển: $1 (một lần, chỉ tên miền)
-- Chi phí vận hành (3 tháng): $711.24 ($237.08 × 3 tháng)
-- **Tổng Giai Đoạn Phát Triển: $712.24**
+- Chi phí vận hành (3 tháng): $310.98 ($103.66 × 3 tháng)
+- **Tổng Giai Đoạn Phát Triển: $311.98**
 
 **Năm 1 (Sau Ra Mắt):**
 - Chi phí phát triển: $1 (một lần, chỉ tên miền)
-- Chi phí vận hành: $2,844.96 ($237.08 × 12 tháng)
-- **Tổng Năm 1: $2,845.96**
+- Chi phí vận hành: $1,243.92 ($103.66 × 12 tháng)
+- **Tổng Năm 1: $1,244.92**
 
 **Năm 2+ (Định Kỳ Hàng Năm):**
-- Chi phí vận hành: $2,844.96/năm
+- Chi phí vận hành: $1,243.92/năm
 - Gia hạn tên miền: $1/năm
 - **Tổng Hàng Năm: $2,845.96**
 
@@ -347,15 +331,15 @@ Nền tảng sử dụng kiến trúc web full-stack hiện đại được thi�
 **Ước Tính Doanh Thu Thận Trọng (Năm 1):**
 - Tháng 6-12: Trung bình 100 Premium + 200 Thành viên
 - Doanh thu: (100 × $15 + 200 × $5) × 7 tháng = $17,500
-- Chi phí vận hành (Năm 1): $2,845.96
-- **Lợi Nhuận Ròng Năm 1: $14,654.04**
+- Chi phí vận hành (Năm 1): $1,243.92
+- **Lợi Nhuận Ròng Năm 1: $16,256.08**
 - Hòa vốn: Tháng 1 sau khi ra mắt
 
 **Ước Tính Doanh Thu Lạc Quan (Năm 2):**
 - 500 Premium + 1,000 Thành viên
 - Doanh thu hàng tháng: $12,500
 - Doanh thu hàng năm: $150,000
-- Chi phí vận hành: $2,845.96
+- Chi phí vận hành: $1,243.92
 - **Lợi Nhuận Ròng Năm 2: $147,154.04**
 - Tỷ suất lợi nhuận: ~98% sau chi phí vận hành
 
@@ -564,3 +548,7 @@ Nền tảng sử dụng kiến trúc web full-stack hiện đại được thi�
 - Giữ chân người dùng: 60%+ người dùng hoạt động hàng tháng
 - Điểm NPS: 50+ (cho thấy sự hài lòng mạnh mẽ của người dùng)
 - Cải thiện điểm IELTS trung bình: Tăng 0.5-1.0 band
+
+## Bản kế hoạch dự án
+
+<iframe src="/Bandup-Proposal.pdf" width="100%" height="800" style="border:0;"></iframe>
