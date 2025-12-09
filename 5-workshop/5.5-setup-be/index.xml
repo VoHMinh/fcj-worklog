@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Backend Deployment (ECS Fargate) on Internship Report</title><link>https://thienluhoan.github.io/workshop-template/5-workshop/5.5-setup-be/</link><description>Recent content in Backend Deployment (ECS Fargate) on Internship Report</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 09 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://thienluhoan.github.io/workshop-template/5-workshop/5.5-setup-be/index.xml" rel="self" type="application/rss+xml"/><item><title>Setup ECR &amp; Push Image</title><link>https://thienluhoan.github.io/workshop-template/5-workshop/5.5-setup-be/5.5.1-ecr/</link><pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate><guid>https://thienluhoan.github.io/workshop-template/5-workshop/5.5-setup-be/5.5.1-ecr/</guid><description>&lt;p>In this step, we will containerize the Spring Boot Backend and push the optimized Docker image to Amazon ECR.&lt;/p>
+&lt;h3 id="1-dockerfile-strategy">1. Dockerfile Strategy&lt;/h3>
+&lt;p>For the Backend, we utilize a &lt;strong>Multi-Stage Build&lt;/strong> strategy with &lt;code>eclipse-temurin:21&lt;/code> (Java 21). This ensures a small and secure final image.&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Stage 1 (Deps):&lt;/strong> Resolves and downloads Maven dependencies.&lt;/li>
+&lt;li>&lt;strong>Stage 2 (Package):&lt;/strong> Builds the application and extracts the &lt;strong>Spring Boot Layered Jar&lt;/strong>. This splits the application into layers (dependencies, spring-boot-loader, application code), allowing Docker to cache unchanged layers (like dependencies) effectively.&lt;/li>
+&lt;li>&lt;strong>Stage 3 (Final):&lt;/strong> Copies the extracted layers into a lightweight JRE image. It also creates a non-privileged user &lt;code>appuser&lt;/code> for security.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img alt="Dockerfile Stage 1 - Dependencies" src="../../images/5-Workshop/5.5-be/be-docker-1.png">
+&lt;img alt="Dockerfile Stage 2 - Layer Extraction" src="../../images/5-Workshop/5.5-be/be-docker-2.png">
+&lt;img alt="Dockerfile Stage 3 - Final Image" src="../../images/5-Workshop/5.5-be/be-docker-3.png">&lt;/p></description></item><item><title>Create PostgreSQL RDS</title><link>https://thienluhoan.github.io/workshop-template/5-workshop/5.5-setup-be/5.5.2-rds/</link><pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate><guid>https://thienluhoan.github.io/workshop-template/5-workshop/5.5-setup-be/5.5.2-rds/</guid><description>&lt;p>In this step, we provision an Amazon RDS for PostgreSQL instance. This will serve as the primary persistent data store for the IELTS BandUp platform. We will configure it for high availability and security within our VPC.&lt;/p>
+&lt;h3 id="1-configure-security-groups">1. Configure Security Groups&lt;/h3>
+&lt;p>Before creating the database, we need to define the firewall rules.&lt;/p>
+&lt;p>&lt;strong>Step 1.1: Create Backend Security Group&lt;/strong>
+This group is for the ECS Fargate tasks (the application layer) to control outbound traffic.&lt;/p></description></item><item><title>Create ElastiCache (Redis/Valkey)</title><link>https://thienluhoan.github.io/workshop-template/5-workshop/5.5-setup-be/5.5.3-redis/</link><pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate><guid>https://thienluhoan.github.io/workshop-template/5-workshop/5.5-setup-be/5.5.3-redis/</guid><description>&lt;p>In this step, we provision an in-memory data store to handle session management and caching for the backend. We will use &lt;strong>Amazon ElastiCache&lt;/strong> with the &lt;strong>Valkey&lt;/strong> engine (a high-performance, open-source fork of Redis supported by AWS).&lt;/p>
+&lt;h3 id="1-configure-security-group">1. Configure Security Group&lt;/h3>
+&lt;p>First, create a Security Group to allow the backend to communicate with the cache cluster.&lt;/p>
+&lt;ol>
+&lt;li>Navigate to &lt;strong>EC2&lt;/strong> &amp;gt; &lt;strong>Security Groups&lt;/strong> &amp;gt; &lt;strong>Create security group&lt;/strong>.&lt;/li>
+&lt;li>&lt;strong>Name:&lt;/strong> &lt;code>redis-sg&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>Inbound rules:&lt;/strong> Allow &lt;strong>Custom TCP&lt;/strong> traffic on port &lt;code>6379&lt;/code> from the &lt;code>ecs-backend-sg&lt;/code>.&lt;/li>
+&lt;/ol>
+&lt;p>&lt;em>(Note: Ensure this is created before proceeding to the ElastiCache console).&lt;/em>&lt;/p></description></item><item><title>Create Service &amp; Task</title><link>https://thienluhoan.github.io/workshop-template/5-workshop/5.5-setup-be/5.5.4-task/</link><pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate><guid>https://thienluhoan.github.io/workshop-template/5-workshop/5.5-setup-be/5.5.4-task/</guid><description>&lt;p>In the final step of the backend deployment, we define the runtime configuration for the Spring Boot application and launch it as a stable ECS Service.&lt;/p>
+&lt;h3 id="1-create-task-definition">1. Create Task Definition&lt;/h3>
+&lt;ol>
+&lt;li>Navigate to &lt;strong>Amazon ECS&lt;/strong> &amp;gt; &lt;strong>Task definitions&lt;/strong> &amp;gt; &lt;strong>Create new task definition&lt;/strong>.&lt;/li>
+&lt;li>&lt;strong>Task definition configuration:&lt;/strong>
+&lt;ul>
+&lt;li>&lt;strong>Family:&lt;/strong> &lt;code>bandup-backend&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>Launch type:&lt;/strong> &lt;code>AWS Fargate&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>OS/Architecture:&lt;/strong> &lt;code>Linux/X86_64&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>Task size:&lt;/strong> &lt;code>1 vCPU&lt;/code> and &lt;code>2 GB&lt;/code> Memory.
+&lt;ul>
+&lt;li>&lt;em>Note: Java applications (Spring Boot) generally require more memory than Node.js apps to handle the JVM heap effectively.&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>Task Role &amp;amp; Execution Role:&lt;/strong> Select &lt;code>ecsTaskExecutionRole&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img alt="Task Definition Overview" src="../../images/5-Workshop/5.5-be/be-task-1.png">&lt;/p></description></item></channel></rss>

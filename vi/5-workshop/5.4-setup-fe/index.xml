@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Triển khai Frontend (ECS Fargate) on Báo cáo thực tập</title><link>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.4-setup-fe/</link><description>Recent content in Triển khai Frontend (ECS Fargate) on Báo cáo thực tập</description><generator>Hugo</generator><language>vi</language><lastBuildDate>Tue, 09 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.4-setup-fe/index.xml" rel="self" type="application/rss+xml"/><item><title>Tạo Task Definition &amp; Service</title><link>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.4-setup-fe/5.4.4-task/</link><pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate><guid>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.4-setup-fe/5.4.4-task/</guid><description>&lt;p>Trong bước cuối cùng của phần triển khai Frontend, chúng ta sẽ định nghĩa cách ứng dụng chạy (Task Definition) và triển khai nó dưới dạng một dịch vụ (ECS Service) có khả năng mở rộng, được kết nối trực tiếp với Load Balancer.&lt;/p>
+&lt;h3 id="1-tạo-task-definition">1. Tạo Task Definition&lt;/h3>
+&lt;p>Task Definition đóng vai trò như một bản thiết kế (blueprint) cho ứng dụng.&lt;/p>
+&lt;ol>
+&lt;li>Truy cập &lt;strong>Amazon ECS&lt;/strong> &amp;gt; &lt;strong>Task definitions&lt;/strong> &amp;gt; &lt;strong>Create new task definition&lt;/strong>.&lt;/li>
+&lt;li>&lt;strong>Cấu hình Task definition:&lt;/strong>
+&lt;ul>
+&lt;li>&lt;strong>Task definition family:&lt;/strong> &lt;code>bandup-frontend&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>Launch type:&lt;/strong> &lt;code>AWS Fargate&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>OS/Architecture:&lt;/strong> &lt;code>Linux/X86_64&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>Task size:&lt;/strong> &lt;code>.5 vCPU&lt;/code> và &lt;code>1 GB&lt;/code> Memory (Đủ cho ứng dụng Next.js).&lt;/li>
+&lt;li>&lt;strong>Task Role &amp;amp; Task Execution Role:&lt;/strong> Chọn &lt;code>ecsTaskExecutionRole&lt;/code> (Đã tạo ở phần 5.3.3).&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img alt="Cấu hình Hạ tầng Task" src="../../../images/5-Workshop/5.4-fe/fe-task-1.png">&lt;/p></description></item></channel></rss>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Triển khai Backend (ECS Fargate) on Báo cáo thực tập</title><link>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.5-setup-be/</link><description>Recent content in Triển khai Backend (ECS Fargate) on Báo cáo thực tập</description><generator>Hugo</generator><language>vi</language><lastBuildDate>Tue, 09 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.5-setup-be/index.xml" rel="self" type="application/rss+xml"/><item><title>Thiết lập ECR &amp; Đẩy Image</title><link>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.5-setup-be/5.5.1-ecr/</link><pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate><guid>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.5-setup-be/5.5.1-ecr/</guid><description>&lt;p>Trong bước này, chúng ta sẽ đóng gói ứng dụng Backend (Spring Boot) và đẩy Docker image đã được tối ưu hóa lên Amazon ECR.&lt;/p>
+&lt;h3 id="1-chiến-lược-dockerfile">1. Chiến lược Dockerfile&lt;/h3>
+&lt;p>Đối với Backend, chúng ta sử dụng chiến lược &lt;strong>Multi-Stage Build&lt;/strong> với &lt;code>eclipse-temurin:21&lt;/code> (Java 21). Điều này giúp tạo ra image cuối cùng nhỏ gọn và bảo mật.&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Stage 1 (Deps):&lt;/strong> Tải về các thư viện phụ thuộc (dependencies) của Maven.&lt;/li>
+&lt;li>&lt;strong>Stage 2 (Package):&lt;/strong> Build ứng dụng và trích xuất &lt;strong>Spring Boot Layered Jar&lt;/strong>. Kỹ thuật này tách ứng dụng thành các lớp riêng biệt (dependencies, spring-boot-loader, code ứng dụng), giúp Docker cache hiệu quả các phần ít thay đổi.&lt;/li>
+&lt;li>&lt;strong>Stage 3 (Final):&lt;/strong> Sao chép các lớp đã trích xuất vào một JRE image nhẹ. Đồng thời tạo một user không có quyền quản trị (&lt;code>appuser&lt;/code>) để tăng cường bảo mật.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img alt="Dockerfile Stage 1 - Dependencies" src="../../../images/5-Workshop/5.5-be/be-docker-1.png">
+&lt;img alt="Dockerfile Stage 2 - Trích xuất Layer" src="../../../images/5-Workshop/5.5-be/be-docker-2.png">
+&lt;img alt="Dockerfile Stage 3 - Final Image" src="../../../images/5-Workshop/5.5-be/be-docker-3.png">&lt;/p></description></item><item><title>Tạo PostgreSQL RDS</title><link>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.5-setup-be/5.5.2-rds/</link><pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate><guid>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.5-setup-be/5.5.2-rds/</guid><description>&lt;p>Trong bước này, chúng ta sẽ khởi tạo một Amazon RDS cho PostgreSQL. Đây sẽ là nơi lưu trữ dữ liệu bền vững chính cho nền tảng IELTS BandUp. Chúng ta sẽ cấu hình nó với tính sẵn sàng cao (High Availability) và bảo mật trong VPC.&lt;/p>
+&lt;h3 id="1-cấu-hình-security-group">1. Cấu hình Security Group&lt;/h3>
+&lt;p>Trước khi tạo cơ sở dữ liệu, chúng ta cần xác định các quy tắc tường lửa.&lt;/p>
+&lt;p>&lt;strong>Bước 1.1: Tạo Backend Security Group&lt;/strong>
+Nhóm này dành cho ECS Fargate tasks (lớp ứng dụng).&lt;/p></description></item><item><title>Tạo ElastiCache (Redis/Valkey)</title><link>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.5-setup-be/5.5.3-redis/</link><pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate><guid>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.5-setup-be/5.5.3-redis/</guid><description>&lt;p>Trong bước này, chúng ta sẽ khởi tạo một kho dữ liệu in-memory để xử lý việc quản lý session và caching cho backend. Chúng ta sẽ sử dụng &lt;strong>Amazon ElastiCache&lt;/strong> với engine &lt;strong>Valkey&lt;/strong> (một nhánh mã nguồn mở hiệu năng cao của Redis được AWS hỗ trợ).&lt;/p>
+&lt;h3 id="1-cấu-hình-security-group">1. Cấu hình Security Group&lt;/h3>
+&lt;p>Đầu tiên, tạo Security Group để cho phép backend giao tiếp với cache cluster.&lt;/p>
+&lt;ol>
+&lt;li>Truy cập &lt;strong>EC2&lt;/strong> &amp;gt; &lt;strong>Security Groups&lt;/strong> &amp;gt; &lt;strong>Create security group&lt;/strong>.&lt;/li>
+&lt;li>&lt;strong>Name:&lt;/strong> &lt;code>redis-sg&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>Inbound rules:&lt;/strong> Cho phép lưu lượng &lt;strong>Custom TCP&lt;/strong> tại cổng &lt;code>6379&lt;/code> từ nguồn là &lt;code>ecs-backend-sg&lt;/code>.&lt;/li>
+&lt;/ol>
+&lt;p>&lt;em>(Lưu ý: Hãy đảm bảo tạo SG này trước khi vào giao diện ElastiCache).&lt;/em>&lt;/p></description></item><item><title>Tạo Service &amp; Task</title><link>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.5-setup-be/5.5.4-task/</link><pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate><guid>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.5-setup-be/5.5.4-task/</guid><description>&lt;p>Trong bước cuối cùng của quá trình triển khai backend, chúng ta sẽ định nghĩa cấu hình chạy cho ứng dụng Spring Boot và khởi tạo nó dưới dạng một ECS Service ổn định.&lt;/p>
+&lt;h3 id="1-tạo-task-definition">1. Tạo Task Definition&lt;/h3>
+&lt;ol>
+&lt;li>Truy cập &lt;strong>Amazon ECS&lt;/strong> &amp;gt; &lt;strong>Task definitions&lt;/strong> &amp;gt; &lt;strong>Create new task definition&lt;/strong>.&lt;/li>
+&lt;li>&lt;strong>Cấu hình Task definition:&lt;/strong>
+&lt;ul>
+&lt;li>&lt;strong>Family:&lt;/strong> &lt;code>bandup-backend&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>Launch type:&lt;/strong> &lt;code>AWS Fargate&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>OS/Architecture:&lt;/strong> &lt;code>Linux/X86_64&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>Task size:&lt;/strong> &lt;code>1 vCPU&lt;/code> và &lt;code>2 GB&lt;/code> Memory.
+&lt;ul>
+&lt;li>&lt;em>Lưu ý: Ứng dụng Java (Spring Boot) thường yêu cầu nhiều bộ nhớ hơn Node.js để quản lý JVM heap hiệu quả.&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>Task Role &amp;amp; Execution Role:&lt;/strong> Chọn &lt;code>ecsTaskExecutionRole&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img alt="Tổng quan Task Definition" src="../../../images/5-Workshop/5.5-be/be-task-1.png">&lt;/p></description></item></channel></rss>

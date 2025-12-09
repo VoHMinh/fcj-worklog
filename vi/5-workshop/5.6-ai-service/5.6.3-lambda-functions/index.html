@@ -1,0 +1,762 @@
+<!doctype html><html lang=vi class="js csstransforms3d"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.134.3"><meta name=description content><meta name=author content="thienlh@thienlu.com"><link rel=icon href=../../../../images/favicon.png type=image/png><title>Lambda Functions :: Báo cáo thực tập</title>
+<link href=../../../../css/nucleus.css?1765297503 rel=stylesheet><link href=../../../../css/fontawesome-all.min.css?1765297503 rel=stylesheet><link href=../../../../css/hybrid.css?1765297503 rel=stylesheet><link href=../../../../css/featherlight.min.css?1765297503 rel=stylesheet><link href=../../../../css/perfect-scrollbar.min.css?1765297503 rel=stylesheet><link href=../../../../css/auto-complete.css?1765297503 rel=stylesheet><link href=../../../../css/atom-one-dark-reasonable.css?1765297503 rel=stylesheet><link href=../../../../css/theme.css?1765297503 rel=stylesheet><link href=../../../../css/hugo-theme.css?1765297503 rel=stylesheet><link href=../../../../css/theme-workshop.css?1765297503 rel=stylesheet><script src=../../../../js/jquery-3.3.1.min.js?1765297503></script><style>:root #header+#content>#left>#rlblock_left{display:none!important}</style></head><body data-url=../../../../vi/5-workshop/5.6-ai-service/5.6.3-lambda-functions/><nav id=sidebar class=showVisitedLinks><div id=header-wrapper><div id=header><a id=logo href=../../../../><svg id="Layer_1" data-name="Layer 1" viewBox="0 0 60 30" width="30%"><defs><style>.cls-1{fill:#fff}.cls-2{fill:#f90;fill-rule:evenodd}</style></defs><title>AWS-Logo_White-Color</title><path class="cls-1" d="M14.09 10.85a4.7 4.7.0 00.19 1.48 7.73 7.73.0 00.54 1.19.77.77.0 01.12.38.64.64.0 01-.32.49l-1 .7a.83.83.0 01-.44.15.69.69.0 01-.49-.23 3.8 3.8.0 01-.6-.77q-.25-.42-.51-1a6.14 6.14.0 01-4.89 2.3 4.54 4.54.0 01-3.32-1.19 4.27 4.27.0 01-1.22-3.2 4.28 4.28.0 011.46-3.4A6.06 6.06.0 017.69 6.46a12.47 12.47.0 011.76.13q.92.13 1.91.36V5.73a3.65 3.65.0 00-.79-2.66A3.81 3.81.0 007.86 2.3a7.71 7.71.0 00-1.79.22 12.78 12.78.0 00-1.79.57 4.55 4.55.0 01-.58.22h-.26q-.35.0-.35-.52V2a1.09 1.09.0 01.12-.58 1.2 1.2.0 01.47-.35A10.88 10.88.0 015.77.32 10.19 10.19.0 018.36.0a6 6 0 014.35 1.35 5.49 5.49.0 011.38 4.09zM7.34 13.38a5.36 5.36.0 001.72-.31A3.63 3.63.0 0010.63 12 2.62 2.62.0 0011.19 11a5.63 5.63.0 00.16-1.44v-.7a14.35 14.35.0 00-1.53-.28 12.37 12.37.0 00-1.56-.1 3.84 3.84.0 00-2.47.67A2.34 2.34.0 005 11a2.35 2.35.0 00.61 1.76A2.4 2.4.0 007.34 13.38zm13.35 1.8a1 1 0 01-.64-.16 1.3 1.3.0 01-.35-.65L15.81 1.51a3 3 0 01-.15-.67.36.36.0 01.41-.41H17.7a1 1 0 01.65.16 1.4 1.4.0 01.33.65l2.79 11 2.59-11A1.17 1.17.0 0124.39.6a1.1 1.1.0 01.67-.16H26.4a1.1 1.1.0 01.67.16 1.17 1.17.0 01.32.65L30 12.39 32.88 1.25A1.39 1.39.0 0133.22.6a1 1 0 01.65-.16h1.54a.36.36.0 01.41.41 1.36 1.36.0 010 .26 3.64 3.64.0 01-.12.41l-4 12.86a1.3 1.3.0 01-.35.65 1 1 0 01-.64.16H29.25a1 1 0 01-.67-.17 1.26 1.26.0 01-.32-.67L25.67 3.64l-2.56 10.7a1.26 1.26.0 01-.32.67 1 1 0 01-.67.17zm21.36.44a11.28 11.28.0 01-2.56-.29 7.44 7.44.0 01-1.92-.67 1 1 0 01-.61-.93v-.84q0-.52.38-.52a.9.9.0 01.31.06l.42.17a8.77 8.77.0 001.83.58 9.78 9.78.0 002 .2 4.48 4.48.0 002.43-.55 1.76 1.76.0 00.86-1.57 1.61 1.61.0 00-.45-1.16A4.29 4.29.0 0043 9.22l-2.41-.76A5.15 5.15.0 0138 6.78a3.94 3.94.0 01-.83-2.41 3.7 3.7.0 01.45-1.85 4.47 4.47.0 011.19-1.37 5.27 5.27.0 011.7-.86A7.4 7.4.0 0142.6.0a8.87 8.87.0 011.12.07q.57.07 1.08.19t.95.26a4.27 4.27.0 01.7.29 1.59 1.59.0 01.49.41.94.94.0 01.15.55v.79q0 .52-.38.52a1.76 1.76.0 01-.64-.2 7.74 7.74.0 00-3.2-.64 4.37 4.37.0 00-2.21.47 1.6 1.6.0 00-.79 1.48 1.58 1.58.0 00.49 1.18 4.94 4.94.0 001.83.92L44.55 7a5.08 5.08.0 012.57 1.6A3.76 3.76.0 0147.9 11a4.21 4.21.0 01-.44 1.93 4.4 4.4.0 01-1.21 1.47 5.43 5.43.0 01-1.85.93A8.25 8.25.0 0142.05 15.62z"/><path class="cls-2" d="M45.19 23.81C39.72 27.85 31.78 30 25 30A36.64 36.64.0 01.22 20.57c-.51-.46-.06-1.09.56-.74A49.78 49.78.0 0025.53 26.4 49.23 49.23.0 0044.4 22.53C45.32 22.14 46.1 23.14 45.19 23.81z"/><path class="cls-2" d="M47.47 21.21c-.7-.9-4.63-.42-6.39-.21-.53.06-.62-.4-.14-.74 3.13-2.2 8.27-1.57 8.86-.83s-.16 5.89-3.09 8.35c-.45.38-.88.18-.68-.32C46.69 25.8 48.17 22.11 47.47 21.21z"/></svg></a></div><div class=searchbox><label for=search-by><i class="fas fa-search"></i></label>
+<input data-search-input id=search-by type=search placeholder=Search...>
+<span data-search-clear><i class="fas fa-times"></i></span></div><script type=text/javascript src=../../../../js/lunr.min.js?1765297503></script><script type=text/javascript src=../../../../js/auto-complete.js?1765297503></script><script type=text/javascript>var baseurl="https://thienluhoan.github.io/workshop-template//vi"</script><script type=text/javascript src=../../../../js/search.js?1765297503></script></div><div class=highlightable><ul class=topics><li data-nav-id=/vi/1-worklog/ title="Nhật ký công việc" class=dd-item><a href=../../../../vi/1-worklog/><b>1. </b>Nhật ký công việc
+<i class="fas fa-check read-icon"></i></a><ul><li data-nav-id=/vi/1-worklog/1.1-week1/ title="Worklog Tuần 1" class=dd-item><a href=../../../../vi/1-worklog/1.1-week1/><b>1.1. </b>Worklog Tuần 1
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/1-worklog/1.2-week2/ title="Worklog Tuần 2" class=dd-item><a href=../../../../vi/1-worklog/1.2-week2/><b>1.2. </b>Worklog Tuần 2
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/1-worklog/1.3-week3/ title="Worklog Tuần 3" class=dd-item><a href=../../../../vi/1-worklog/1.3-week3/><b>1.3. </b>Worklog Tuần 3
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/1-worklog/1.4-week4/ title="Worklog Tuần 4" class=dd-item><a href=../../../../vi/1-worklog/1.4-week4/><b>1.4. </b>Worklog Tuần 4
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/1-worklog/1.5-week5/ title="Worklog Tuần 5" class=dd-item><a href=../../../../vi/1-worklog/1.5-week5/><b>1.5. </b>Worklog Tuần 5
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/1-worklog/1.6-week6/ title="Worklog Tuần 6" class=dd-item><a href=../../../../vi/1-worklog/1.6-week6/><b>1.6. </b>Worklog Tuần 6
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/1-worklog/1.7-week7/ title="Worklog Tuần 7" class=dd-item><a href=../../../../vi/1-worklog/1.7-week7/><b>1.7. </b>Worklog Tuần 7
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/1-worklog/1.8-week8/ title="Worklog Tuần 8" class=dd-item><a href=../../../../vi/1-worklog/1.8-week8/><b>1.8. </b>Worklog Tuần 8
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/1-worklog/1.9-week9/ title="Worklog Tuần 9" class=dd-item><a href=../../../../vi/1-worklog/1.9-week9/><b>1.9. </b>Worklog Tuần 9
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/1-worklog/1.10-week10/ title="Worklog Tuần 10" class=dd-item><a href=../../../../vi/1-worklog/1.10-week10/><b>1.10. </b>Worklog Tuần 10
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/1-worklog/1.11-week11/ title="Worklog Tuần 11" class=dd-item><a href=../../../../vi/1-worklog/1.11-week11/><b>1.11. </b>Worklog Tuần 11
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/1-worklog/1.12-week12/ title="Worklog Tuần 12" class=dd-item><a href=../../../../vi/1-worklog/1.12-week12/><b>1.12. </b>Worklog Tuần 12
+<i class="fas fa-check read-icon"></i></a></li></ul></li><li data-nav-id=/vi/2-proposal/ title="Bản đề xuất" class=dd-item><a href=../../../../vi/2-proposal/><b>2. </b>Bản đề xuất
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/4-eventparticipated/ title="Các events đã tham gia" class=dd-item><a href=../../../../vi/4-eventparticipated/><b>4. </b>Các events đã tham gia
+<i class="fas fa-check read-icon"></i></a><ul><li data-nav-id=/vi/4-eventparticipated/4.1-event1/ title="Event 1" class=dd-item><a href=../../../../vi/4-eventparticipated/4.1-event1/><b>4.1. </b>Event 1
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/4-eventparticipated/4.2-event2/ title="Event 2" class=dd-item><a href=../../../../vi/4-eventparticipated/4.2-event2/><b>4.2. </b>Event 2
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/4-eventparticipated/4.3-event3/ title="Event 3" class=dd-item><a href=../../../../vi/4-eventparticipated/4.3-event3/><b>4.3. </b>Event 3
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/4-eventparticipated/4.4-event4/ title="Event 4" class=dd-item><a href=../../../../vi/4-eventparticipated/4.4-event4/><b>4.4. </b>Event 4
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/4-eventparticipated/4.5-event5/ title="Event 5" class=dd-item><a href=../../../../vi/4-eventparticipated/4.5-event5/><b>4.5. </b>Event 5
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/4-eventparticipated/4.6-event6/ title="Event 6" class=dd-item><a href=../../../../vi/4-eventparticipated/4.6-event6/><b>4.6. </b>Event 6
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/4-eventparticipated/4.7-event7/ title="Event 7" class=dd-item><a href=../../../../vi/4-eventparticipated/4.7-event7/><b>4.7. </b>Event 7
+<i class="fas fa-check read-icon"></i></a></li></ul></li><li data-nav-id=/vi/5-workshop/ title=Workshop class="dd-item
+parent"><a href=../../../../vi/5-workshop/><b>5. </b>Workshop
+<i class="fas fa-check read-icon"></i></a><ul><li data-nav-id=/vi/5-workshop/5.1-workshop-overview/ title="Giới thiệu" class=dd-item><a href=../../../../vi/5-workshop/5.1-workshop-overview/><b>5.1. </b>Giới thiệu
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.2-prerequiste/ title="Các bước chuẩn bị" class=dd-item><a href=../../../../vi/5-workshop/5.2-prerequiste/><b>5.2. </b>Các bước chuẩn bị
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.3-network/ title="Hạ tầng Mạng & Bảo mật" class=dd-item><a href=../../../../vi/5-workshop/5.3-network/><b>5.3. </b>Hạ tầng Mạng & Bảo mật
+<i class="fas fa-check read-icon"></i></a><ul><li data-nav-id=/vi/5-workshop/5.3-network/5.3.1-vpc/ title="Cấu hình VPC, Subnets & Routing" class=dd-item><a href=../../../../vi/5-workshop/5.3-network/5.3.1-vpc/><b>5.3.1. </b>Cấu hình VPC, Subnets & Routing
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.3-network/5.3.2-alb/ title="Cấu hình Application Load Balancer (ALB)" class=dd-item><a href=../../../../vi/5-workshop/5.3-network/5.3.2-alb/><b>5.3.2. </b>Cấu hình Application Load Balancer (ALB)
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.3-network/5.3.3-iam/ title="IAM Roles cho ECS" class=dd-item><a href=../../../../vi/5-workshop/5.3-network/5.3.3-iam/><b>5.3.3. </b>IAM Roles cho ECS <i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.3-network/5.3.4-endpoints/ title="Thiết lập VPC Endpoints" class=dd-item><a href=../../../../vi/5-workshop/5.3-network/5.3.4-endpoints/><b>5.3.4. </b>Thiết lập VPC Endpoints <i class="fas fa-check read-icon"></i></a></li></ul></li><li data-nav-id=/vi/5-workshop/5.4-setup-fe/ title="Triển khai Frontend (ECS Fargate)" class=dd-item><a href=../../../../vi/5-workshop/5.4-setup-fe/><b>5.4. </b>Triển khai Frontend (ECS Fargate)
+<i class="fas fa-check read-icon"></i></a><ul><li data-nav-id=/vi/5-workshop/5.4-setup-fe/5.4.1-docker/ title="Thiết lập ECR & Đẩy Image" class=dd-item><a href=../../../../vi/5-workshop/5.4-setup-fe/5.4.1-docker/><b>5.4.1. </b>Thiết lập ECR & Đẩy Image
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.4-setup-fe/5.4.2-ecr/ title="Thiết lập ECR & IAM Role" class=dd-item><a href=../../../../vi/5-workshop/5.4-setup-fe/5.4.2-ecr/><b>5.4.2. </b>Thiết lập ECR & IAM Role
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.4-setup-fe/5.4.3-sg/ title="Cấu hình Security Group" class=dd-item><a href=../../../../vi/5-workshop/5.4-setup-fe/5.4.3-sg/><b>5.4.3. </b>Cấu hình Security Group
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.4-setup-fe/5.4.4-task/ title="Tạo Task Definition & Service" class=dd-item><a href=../../../../vi/5-workshop/5.4-setup-fe/5.4.4-task/><b>5.4.4. </b>Tạo Task Definition & Service <i class="fas fa-check read-icon"></i></a></li></ul></li><li data-nav-id=/vi/5-workshop/5.5-setup-be/ title="Triển khai Backend (ECS Fargate)" class=dd-item><a href=../../../../vi/5-workshop/5.5-setup-be/><b>5.5. </b>Triển khai Backend (ECS Fargate)
+<i class="fas fa-check read-icon"></i></a><ul><li data-nav-id=/vi/5-workshop/5.5-setup-be/5.5.1-ecr/ title="Thiết lập ECR & Đẩy Image" class=dd-item><a href=../../../../vi/5-workshop/5.5-setup-be/5.5.1-ecr/><b>5.5.1. </b>Thiết lập ECR & Đẩy Image <i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.5-setup-be/5.5.2-rds/ title="Tạo PostgreSQL RDS" class=dd-item><a href=../../../../vi/5-workshop/5.5-setup-be/5.5.2-rds/><b>5.5.2. </b>Tạo PostgreSQL RDS <i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.5-setup-be/5.5.3-redis/ title="Tạo ElastiCache (Redis/Valkey)" class=dd-item><a href=../../../../vi/5-workshop/5.5-setup-be/5.5.3-redis/><b>5.5.3. </b>Tạo ElastiCache (Redis/Valkey) <i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.5-setup-be/5.5.4-task/ title="Tạo Service & Task" class=dd-item><a href=../../../../vi/5-workshop/5.5-setup-be/5.5.4-task/><b>5.5.4. </b>Tạo Service & Task <i class="fas fa-check read-icon"></i></a></li></ul></li><li data-nav-id=/vi/5-workshop/5.6-ai-service/ title="AI Service Architecture" class="dd-item
+parent"><a href=../../../../vi/5-workshop/5.6-ai-service/><b>5.6. </b>AI Service Architecture
+<i class="fas fa-check read-icon"></i></a><ul><li data-nav-id=/vi/5-workshop/5.6-ai-service/5.6.1-api-gateway/ title="API Gateway" class=dd-item><a href=../../../../vi/5-workshop/5.6-ai-service/5.6.1-api-gateway/><b>5.6.1. </b>API Gateway
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.6-ai-service/5.6.2-sqs-queues/ title="SQS Queues" class=dd-item><a href=../../../../vi/5-workshop/5.6-ai-service/5.6.2-sqs-queues/><b>5.6.2. </b>SQS Queues
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.6-ai-service/5.6.3-lambda-functions/ title="Lambda Functions" class="dd-item
+active"><a href=../../../../vi/5-workshop/5.6-ai-service/5.6.3-lambda-functions/><b>5.6.3. </b>Lambda Functions
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.6-ai-service/5.6.4-dynamodb/ title=DynamoDB class=dd-item><a href=../../../../vi/5-workshop/5.6-ai-service/5.6.4-dynamodb/><b>5.6.4. </b>DynamoDB
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.6-ai-service/5.6.5-bedrock-integration/ title="Bedrock Integration" class=dd-item><a href=../../../../vi/5-workshop/5.6-ai-service/5.6.5-bedrock-integration/><b>5.6.5. </b>Bedrock Integration
+<i class="fas fa-check read-icon"></i></a></li></ul></li><li data-nav-id=/vi/5-workshop/5.7-cicd-pipeline/ title="CI/CD với CodeBuild & CodePipeline" class=dd-item><a href=../../../../vi/5-workshop/5.7-cicd-pipeline/><b>5.7. </b>CI/CD với CodeBuild & CodePipeline
+<i class="fas fa-check read-icon"></i></a><ul><li data-nav-id=/vi/5-workshop/5.7-cicd-pipeline/5.7.1-create-gwe/ title="Kết nối repo GitLab & tạo dự án CodeBuild" class=dd-item><a href=../../../../vi/5-workshop/5.7-cicd-pipeline/5.7.1-create-gwe/><b>5.7.1 </b>Kết nối repo GitLab & tạo dự án CodeBuild
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/5-workshop/5.7-cicd-pipeline/5.7.2-test-gwe/ title="Tạo CodePipeline với trigger theo tag GitLab" class=dd-item><a href=../../../../vi/5-workshop/5.7-cicd-pipeline/5.7.2-test-gwe/><b>5.7.2 </b>Tạo CodePipeline với trigger theo tag GitLab
+<i class="fas fa-check read-icon"></i></a></li></ul></li><li data-nav-id=/vi/5-workshop/5.8-cleanup/ title="Dọn Dẹp Tài Nguyên" class=dd-item><a href=../../../../vi/5-workshop/5.8-cleanup/><b>5.8. </b>Dọn Dẹp Tài Nguyên
+<i class="fas fa-check read-icon"></i></a></li></ul></li><li data-nav-id=/vi/6-self-evaluation/ title="Tự đánh giá" class=dd-item><a href=../../../../vi/6-self-evaluation/><b>6. </b>Tự đánh giá
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/7-feedback/ title="Chia sẻ, đóng góp ý kiến" class=dd-item><a href=../../../../vi/7-feedback/><b>7. </b>Chia sẻ, đóng góp ý kiến
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/3-blogstranslated/ title="Let's Architect! Modern Data Architectures" class=dd-item><a href=../../../../vi/3-blogstranslated/><b>3.4. </b>Let's Architect! Modern Data Architectures
+<i class="fas fa-check read-icon"></i></a><ul><li data-nav-id=/vi/3-blogstranslated/3.3-blog3/ title="Multi-Region keys: Một cách tiếp cận mới cho nhân bản khóa trong AWS Payment Cryptography" class=dd-item><a href=../../../../vi/3-blogstranslated/3.3-blog3/><b>3.3. </b>Multi-Region keys: Một cách tiếp cận mới cho nhân bản khóa trong AWS Payment Cryptography
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/3-blogstranslated/3.1-blog1/ title="Làm thế nào FINRA thiết lập khả năng quan sát vận hành thời gian thực cho các workload big data trên Amazon EMR chạy trên Amazon EC2 bằng Prometheus và Grafana" class=dd-item><a href=../../../../vi/3-blogstranslated/3.1-blog1/><b>3.1. </b>Làm thế nào FINRA thiết lập khả năng quan sát vận hành thời gian thực cho các workload big data trên Amazon EMR chạy trên Amazon EC2 bằng Prometheus và Grafana
+<i class="fas fa-check read-icon"></i></a></li><li data-nav-id=/vi/3-blogstranslated/3.2-blog2/ title="AWS cho các Ngành công nghiệp: 150 Mô hình và Đang tăng - Hướng dẫn về các Mô hình Generative AI cho Y tế và Khoa học Đời sống" class=dd-item><a href=../../../../vi/3-blogstranslated/3.2-blog2/><b>3.3. </b>AWS cho các Ngành công nghiệp: 150 Mô hình và Đang tăng - Hướng dẫn về các Mô hình Generative AI cho Y tế và Khoa học Đời sống
+<i class="fas fa-check read-icon"></i></a></li></ul></li></ul><section id=shortcuts><h3>More</h3><ul><li><a class=padding href=https://www.facebook.com/groups/awsstudygroupfcj/><i class='fab fa-facebook'></i> AWS Study Group</a></li></ul></section><section id=prefooter><hr><ul><li><a class=padding><i class="fas fa-language fa-fw"></i><div class=select-style><select id=select-language onchange="location=this.value"><option id=en value=https://thienluhoan.github.io/workshop-template/5-workshop/5.6-ai-service/5.6.3-lambda-functions/>English</option><option id=vi value=https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.6-ai-service/5.6.3-lambda-functions/ selected>Tiếng Việt</option></select><svg id="Capa_1" xmlns:xlink="http://www.w3.org/1999/xlink" width="255" height="255" viewBox="0 0 255 255" style="enable-background:new 0 0 255 255"><g><g id="arrow-drop-down"><polygon points="0,63.75 127.5,191.25 255,63.75"/></g></g></svg></div></a></li><li><a class=padding href=# data-clear-history-toggle><i class="fas fa-history fa-fw"></i> Clear History</a></li></ul></section><section id=footer><left><b>Workshop</b><br><img src="https://hitwebcounter.com/counter/counter.php?page=7920860&style=0038&nbdigits=9&type=page&initCount=0" title=Migrate alt="web counter" border=0></a><br><b><a href=https://cloudjourney.awsstudygroup.com/>Cloud Journey</a></b><br><img src="https://hitwebcounter.com/counter/counter.php?page=7830807&style=0038&nbdigits=9&type=page&initCount=0" title="Total CLoud Journey" alt="web counter" border=0>
+</left><left><br><br><b>Last Updated</b><br><i><span id=lastUpdated style=color:orange></span>
+</i><script>const today=new Date,formattedDate=today.toLocaleDateString("en-GB");document.getElementById("lastUpdated").textContent=formattedDate</script></left><left><br><br><b>Team</b><br><i><a href=https://www.facebook.com/groups/660548818043427 style=color:orange>First Cloud Journey</a><br></i></left><script async defer src=https://buttons.github.io/buttons.js></script></section></div></nav><section id=body><div id=overlay></div><div class="padding highlightable"><div><div id=top-bar><div id=breadcrumbs itemscope itemtype=http://data-vocabulary.org/Breadcrumb><span id=sidebar-toggle-span><a href=# id=sidebar-toggle data-sidebar-toggle><i class="fas fa-bars"></i>
+</a></span><span id=toc-menu><i class="fas fa-list-alt"></i></span>
+<span class=links><a href=../../../../vi/>Báo cáo thực tập</a> > <a href=../../../../vi/5-workshop/>Workshop</a> > <a href=../../../../vi/5-workshop/5.6-ai-service/>AI Service Architecture</a> > Lambda Functions</span></div><div class=progress><div class=wrapper><nav id=TableOfContents><ul><li><ul><li></li><li><a href=#lambda-function-1-writing-evaluator>Lambda Function 1: Writing Evaluator</a></li><li><a href=#lambda-function-2-speaking-evaluator>Lambda Function 2: Speaking Evaluator</a></li><li><a href=#lambda-function-3-flashcard-generator-rag>Lambda Function 3: Flashcard Generator (RAG)</a></li><li><a href=#lambda-function-4-s3-upload-handler>Lambda Function 4: S3 Upload Handler</a></li><li><a href=#quản-lý-secrets-an-toàn>Quản Lý Secrets An Toàn</a></li><li><a href=#iam-role-cho-lambda-functions>IAM Role cho Lambda Functions</a></li><li><a href=#bảng-dynamodb>Bảng DynamoDB</a></li><li><a href=#biến-môi-trường>Biến Môi Trường</a></li><li><a href=#deploy-lambda-functions>Deploy Lambda Functions</a></li></ul></li></ul></nav></div></div></div></div><div id=head-tags></div><div id=body-inner><h1>Lambda Functions</h1><h4 id=tổng-quan>Tổng Quan</h4><p>Tầng AI Service bao gồm <strong>bốn Lambda functions</strong> cung cấp sức mạnh cho nền tảng học IELTS. Các functions này xử lý yêu cầu bất đồng bộ qua SQS queues và tích hợp với <strong>Google Gemini API</strong> và <strong>Amazon Bedrock</strong> để đánh giá bằng AI.</p><p><img alt="AI Service Architecture" src=../../../../images/5-Workshop/5.6-AI-Service/lambda-flow.png></p><hr><h3 id=lambda-function-1-writing-evaluator>Lambda Function 1: Writing Evaluator</h3><p>Đánh giá bài luận IELTS Writing Task 1 và Task 2 sử dụng Gemini API với điểm band chi tiết.</p><table><thead><tr><th style=text-align:left>Cài Đặt</th><th style=text-align:left>Giá Trị</th></tr></thead><tbody><tr><td style=text-align:left><strong>Function name</strong></td><td style=text-align:left><code>bandup-writing-evaluator</code></td></tr><tr><td style=text-align:left><strong>Runtime</strong></td><td style=text-align:left>Python 3.11</td></tr><tr><td style=text-align:left><strong>Memory</strong></td><td style=text-align:left>1024 MB</td></tr><tr><td style=text-align:left><strong>Timeout</strong></td><td style=text-align:left>5 phút</td></tr><tr><td style=text-align:left><strong>Trigger</strong></td><td style=text-align:left>SQS (<code>bandup-writing-queue</code>)</td></tr><tr><td style=text-align:left><strong>AI Model</strong></td><td style=text-align:left>Google Gemini 2.0 Flash</td></tr></tbody></table><p><strong>Triển Khai Chính:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> json
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> os
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> boto3
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> logging
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> typing <span style=color:#f92672>import</span> Dict, Any
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>logger <span style=color:#f92672>=</span> logging<span style=color:#f92672>.</span>getLogger()
+</span></span><span style=display:flex><span>logger<span style=color:#f92672>.</span>setLevel(logging<span style=color:#f92672>.</span>INFO)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Import từ Lambda layer</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> lambda_shared.gemini_client <span style=color:#f92672>import</span> GeminiClient
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> secrets_helper <span style=color:#f92672>import</span> get_gemini_api_key
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>lambda_handler</span>(event: Dict[str, Any], context: Any) <span style=color:#f92672>-&gt;</span> Dict[str, Any]:
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Đánh giá bài luận IELTS Writing sử dụng Gemini API.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Parse SQS message hoặc API Gateway request</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> is_sqs_event(event):
+</span></span><span style=display:flex><span>        request_data, job_id <span style=color:#f92672>=</span> parse_sqs_message(event)
+</span></span><span style=display:flex><span>        update_job_status(job_id, <span style=color:#e6db74>&#39;processing&#39;</span>, <span style=color:#e6db74>&#39;writing&#39;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>        request_data <span style=color:#f92672>=</span> json<span style=color:#f92672>.</span>loads(event<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;body&#39;</span>, <span style=color:#e6db74>&#39;</span><span style=color:#e6db74>{}</span><span style=color:#e6db74>&#39;</span>))
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Lấy API key an toàn từ Secrets Manager</span>
+</span></span><span style=display:flex><span>    gemini_api_key <span style=color:#f92672>=</span> get_gemini_api_key()  <span style=color:#75715e># Lấy từ AWS Secrets Manager</span>
+</span></span><span style=display:flex><span>    gemini_client <span style=color:#f92672>=</span> GeminiClient(api_key<span style=color:#f92672>=</span>gemini_api_key)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Trích xuất parameters từ request</span>
+</span></span><span style=display:flex><span>    user_id <span style=color:#f92672>=</span> request_data<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;user_id&#39;</span>)
+</span></span><span style=display:flex><span>    essay_content <span style=color:#f92672>=</span> request_data<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;essay_content&#39;</span>)
+</span></span><span style=display:flex><span>    task_type <span style=color:#f92672>=</span> request_data<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;task_type&#39;</span>, <span style=color:#e6db74>&#39;TASK_2&#39;</span>)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Xây dựng prompt đánh giá</span>
+</span></span><span style=display:flex><span>    prompt <span style=color:#f92672>=</span> build_writing_prompt(essay_content, task_type)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Gọi Gemini API để đánh giá</span>
+</span></span><span style=display:flex><span>    response <span style=color:#f92672>=</span> gemini_client<span style=color:#f92672>.</span>generate_evaluation(
+</span></span><span style=display:flex><span>        prompt<span style=color:#f92672>=</span>prompt,
+</span></span><span style=display:flex><span>        feature<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;writing_task2&#39;</span>,
+</span></span><span style=display:flex><span>        max_retries<span style=color:#f92672>=</span><span style=color:#ae81ff>3</span>,
+</span></span><span style=display:flex><span>        timeout<span style=color:#f92672>=</span><span style=color:#ae81ff>60</span>
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Parse và validate band scores</span>
+</span></span><span style=display:flex><span>    evaluation <span style=color:#f92672>=</span> parse_gemini_response(response[<span style=color:#e6db74>&#39;content&#39;</span>])
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Xây dựng kết quả với tiêu chí IELTS</span>
+</span></span><span style=display:flex><span>    result <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;session_id&#39;</span>: request_data<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;session_id&#39;</span>),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;overall_band&#39;</span>: evaluation<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;overall_band&#39;</span>),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;task_achievement_band&#39;</span>: evaluation[<span style=color:#e6db74>&#39;task_achievement&#39;</span>][<span style=color:#e6db74>&#39;band&#39;</span>],
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;coherence_band&#39;</span>: evaluation[<span style=color:#e6db74>&#39;coherence_cohesion&#39;</span>][<span style=color:#e6db74>&#39;band&#39;</span>],
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;lexical_band&#39;</span>: evaluation[<span style=color:#e6db74>&#39;lexical_resource&#39;</span>][<span style=color:#e6db74>&#39;band&#39;</span>],
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;grammar_band&#39;</span>: evaluation[<span style=color:#e6db74>&#39;grammatical_range_accuracy&#39;</span>][<span style=color:#e6db74>&#39;band&#39;</span>],
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;feedback&#39;</span>: evaluation
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Lưu vào DynamoDB</span>
+</span></span><span style=display:flex><span>    dynamodb <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>resource(<span style=color:#e6db74>&#39;dynamodb&#39;</span>)
+</span></span><span style=display:flex><span>    table <span style=color:#f92672>=</span> dynamodb<span style=color:#f92672>.</span>Table(os<span style=color:#f92672>.</span>environ<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;DYNAMODB_EVALUATIONS&#39;</span>))
+</span></span><span style=display:flex><span>    table<span style=color:#f92672>.</span>put_item(Item<span style=color:#f92672>=</span>{
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;evaluation_id&#39;</span>: result[<span style=color:#e6db74>&#39;session_id&#39;</span>],
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;user_id&#39;</span>: user_id,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;evaluation_type&#39;</span>: <span style=color:#e6db74>&#39;writing&#39;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;status&#39;</span>: <span style=color:#e6db74>&#39;completed&#39;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>**</span>result
+</span></span><span style=display:flex><span>    })
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> {<span style=color:#e6db74>&#39;statusCode&#39;</span>: <span style=color:#ae81ff>200</span>, <span style=color:#e6db74>&#39;body&#39;</span>: json<span style=color:#f92672>.</span>dumps(result)}
+</span></span></code></pre></div><p><strong>Mẫu Prompt Gemini:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>build_writing_prompt</span>(essay_content: str, task_type: str) <span style=color:#f92672>-&gt;</span> str:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;&#34;&#34;You are an experienced IELTS examiner. Evaluate this essay:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Task Type: </span><span style=color:#e6db74>{</span>task_type<span style=color:#e6db74>}</span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>ESSAY:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74></span><span style=color:#e6db74>{</span>essay_content<span style=color:#e6db74>}</span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Evaluate using IELTS band descriptors (1-9, 0.5 increments):
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>1. Task Achievement - Addresses all parts of task
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>2. Coherence and Cohesion - Logical organization
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>3. Lexical Resource - Vocabulary range and accuracy
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>4. Grammatical Range and Accuracy - Sentence structures
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>RESPOND IN JSON FORMAT:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74></span><span style=color:#ae81ff>{{</span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#34;overall_band&#34;: &lt;float&gt;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#34;task_achievement&#34;: </span><span style=color:#ae81ff>{{</span><span style=color:#e6db74>&#34;band&#34;: &lt;float&gt;, &#34;feedback&#34;: &#34;...&#34;</span><span style=color:#ae81ff>}}</span><span style=color:#e6db74>,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#34;coherence_cohesion&#34;: </span><span style=color:#ae81ff>{{</span><span style=color:#e6db74>&#34;band&#34;: &lt;float&gt;, &#34;feedback&#34;: &#34;...&#34;</span><span style=color:#ae81ff>}}</span><span style=color:#e6db74>,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#34;lexical_resource&#34;: </span><span style=color:#ae81ff>{{</span><span style=color:#e6db74>&#34;band&#34;: &lt;float&gt;, &#34;feedback&#34;: &#34;...&#34;</span><span style=color:#ae81ff>}}</span><span style=color:#e6db74>,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#34;grammatical_range_accuracy&#34;: </span><span style=color:#ae81ff>{{</span><span style=color:#e6db74>&#34;band&#34;: &lt;float&gt;, &#34;feedback&#34;: &#34;...&#34;</span><span style=color:#ae81ff>}}</span><span style=color:#e6db74>,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#34;quoted_examples&#34;: [</span><span style=color:#ae81ff>{{</span><span style=color:#e6db74>&#34;quote&#34;: &#34;...&#34;, &#34;issue&#34;: &#34;...&#34;, &#34;suggestion&#34;: &#34;...&#34;</span><span style=color:#ae81ff>}}</span><span style=color:#e6db74>]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74></span><span style=color:#ae81ff>}}</span><span style=color:#e6db74>&#34;&#34;&#34;</span>
+</span></span></code></pre></div><hr><h3 id=lambda-function-2-speaking-evaluator>Lambda Function 2: Speaking Evaluator</h3><p>Đánh giá IELTS Speaking sử dụng <strong>Gemini native audio processing</strong> - rẻ hơn 72% và nhanh gấp 2 lần so với AWS Transcribe.</p><table><thead><tr><th style=text-align:left>Cài Đặt</th><th style=text-align:left>Giá Trị</th></tr></thead><tbody><tr><td style=text-align:left><strong>Function name</strong></td><td style=text-align:left><code>bandup-speaking-evaluator</code></td></tr><tr><td style=text-align:left><strong>Runtime</strong></td><td style=text-align:left>Python 3.11</td></tr><tr><td style=text-align:left><strong>Memory</strong></td><td style=text-align:left>2048 MB</td></tr><tr><td style=text-align:left><strong>Timeout</strong></td><td style=text-align:left>5 phút</td></tr><tr><td style=text-align:left><strong>Trigger</strong></td><td style=text-align:left>SQS (<code>bandup-speaking-queue</code>)</td></tr><tr><td style=text-align:left><strong>AI Model</strong></td><td style=text-align:left>Gemini 2.5 Flash (Native Audio)</td></tr></tbody></table><p><strong>Triển Khai Chính:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> json
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> os
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> boto3
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> logging
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> typing <span style=color:#f92672>import</span> Dict, Any, Tuple
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>logger <span style=color:#f92672>=</span> logging<span style=color:#f92672>.</span>getLogger()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Import từ Lambda layer</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> lambda_shared.gemini_client <span style=color:#f92672>import</span> GeminiClient
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> secrets_helper <span style=color:#f92672>import</span> get_gemini_api_key
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>download_audio_from_s3</span>(audio_url: str) <span style=color:#f92672>-&gt;</span> Tuple[bytes, str]:
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Tải file audio từ S3 và xác định MIME type.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    s3_client <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#39;s3&#39;</span>)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Parse S3 URL: s3://bucket-name/path/to/file.mp3</span>
+</span></span><span style=display:flex><span>    parts <span style=color:#f92672>=</span> audio_url<span style=color:#f92672>.</span>replace(<span style=color:#e6db74>&#39;s3://&#39;</span>, <span style=color:#e6db74>&#39;&#39;</span>)<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#39;/&#39;</span>, <span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>    bucket, key <span style=color:#f92672>=</span> parts[<span style=color:#ae81ff>0</span>], parts[<span style=color:#ae81ff>1</span>]
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    response <span style=color:#f92672>=</span> s3_client<span style=color:#f92672>.</span>get_object(Bucket<span style=color:#f92672>=</span>bucket, Key<span style=color:#f92672>=</span>key)
+</span></span><span style=display:flex><span>    audio_bytes <span style=color:#f92672>=</span> response[<span style=color:#e6db74>&#39;Body&#39;</span>]<span style=color:#f92672>.</span>read()
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Xác định MIME type từ extension</span>
+</span></span><span style=display:flex><span>    mime_types <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#39;.mp3&#39;</span>: <span style=color:#e6db74>&#39;audio/mp3&#39;</span>, <span style=color:#e6db74>&#39;.wav&#39;</span>: <span style=color:#e6db74>&#39;audio/wav&#39;</span>, <span style=color:#e6db74>&#39;.m4a&#39;</span>: <span style=color:#e6db74>&#39;audio/m4a&#39;</span>}
+</span></span><span style=display:flex><span>    ext <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;.&#39;</span> <span style=color:#f92672>+</span> key<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#39;.&#39;</span>)[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]<span style=color:#f92672>.</span>lower()
+</span></span><span style=display:flex><span>    mime_type <span style=color:#f92672>=</span> mime_types<span style=color:#f92672>.</span>get(ext, <span style=color:#e6db74>&#39;audio/mp3&#39;</span>)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> audio_bytes, mime_type
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>lambda_handler</span>(event: Dict[str, Any], context: Any) <span style=color:#f92672>-&gt;</span> Dict[str, Any]:
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Đánh giá IELTS Speaking sử dụng Gemini native audio.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Parse request</span>
+</span></span><span style=display:flex><span>    request_data <span style=color:#f92672>=</span> parse_request(event)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Lấy API key từ Secrets Manager</span>
+</span></span><span style=display:flex><span>    gemini_api_key <span style=color:#f92672>=</span> get_gemini_api_key()
+</span></span><span style=display:flex><span>    gemini_client <span style=color:#f92672>=</span> GeminiClient(api_key<span style=color:#f92672>=</span>gemini_api_key)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Trích xuất parameters</span>
+</span></span><span style=display:flex><span>    audio_url <span style=color:#f92672>=</span> request_data<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;audio_url&#39;</span>)
+</span></span><span style=display:flex><span>    part <span style=color:#f92672>=</span> request_data<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;part&#39;</span>, <span style=color:#e6db74>&#39;PART_1&#39;</span>)
+</span></span><span style=display:flex><span>    questions <span style=color:#f92672>=</span> request_data<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;questions&#39;</span>, [])
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Bước 1: Tải audio từ S3</span>
+</span></span><span style=display:flex><span>    audio_bytes, mime_type <span style=color:#f92672>=</span> download_audio_from_s3(audio_url)
+</span></span><span style=display:flex><span>    logger<span style=color:#f92672>.</span>info(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Đã tải </span><span style=color:#e6db74>{</span>len(audio_bytes)<span style=color:#e6db74>}</span><span style=color:#e6db74> bytes, MIME: </span><span style=color:#e6db74>{</span>mime_type<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Bước 2: Gửi audio trực tiếp đến Gemini (MỘT lần gọi API)</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Không cần AWS Transcribe - Gemini xử lý audio trực tiếp</span>
+</span></span><span style=display:flex><span>    evaluation <span style=color:#f92672>=</span> gemini_client<span style=color:#f92672>.</span>evaluate_audio(
+</span></span><span style=display:flex><span>        audio_bytes<span style=color:#f92672>=</span>audio_bytes,
+</span></span><span style=display:flex><span>        part<span style=color:#f92672>=</span>part,
+</span></span><span style=display:flex><span>        questions<span style=color:#f92672>=</span>questions,
+</span></span><span style=display:flex><span>        mime_type<span style=color:#f92672>=</span>mime_type,
+</span></span><span style=display:flex><span>        max_retries<span style=color:#f92672>=</span><span style=color:#ae81ff>3</span>,
+</span></span><span style=display:flex><span>        timeout<span style=color:#f92672>=</span><span style=color:#ae81ff>120</span>
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Bước 3: Xây dựng response với tiêu chí IELTS Speaking</span>
+</span></span><span style=display:flex><span>    result <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;session_id&#39;</span>: request_data<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;session_id&#39;</span>),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;transcript&#39;</span>: evaluation<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;transcript&#39;</span>),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;duration&#39;</span>: evaluation<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;duration_seconds&#39;</span>),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;overall_band&#39;</span>: evaluation<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;overall_band&#39;</span>),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;fluency_band&#39;</span>: evaluation[<span style=color:#e6db74>&#39;fluency_coherence&#39;</span>][<span style=color:#e6db74>&#39;band&#39;</span>],
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;lexical_band&#39;</span>: evaluation[<span style=color:#e6db74>&#39;lexical_resource&#39;</span>][<span style=color:#e6db74>&#39;band&#39;</span>],
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;grammar_band&#39;</span>: evaluation[<span style=color:#e6db74>&#39;grammatical_range_accuracy&#39;</span>][<span style=color:#e6db74>&#39;band&#39;</span>],
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;pronunciation_band&#39;</span>: evaluation[<span style=color:#e6db74>&#39;pronunciation&#39;</span>][<span style=color:#e6db74>&#39;band&#39;</span>],
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;model_used&#39;</span>: <span style=color:#e6db74>&#39;gemini-2.5-flash-audio&#39;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;estimated_cost&#39;</span>: evaluation[<span style=color:#e6db74>&#39;usage&#39;</span>][<span style=color:#e6db74>&#39;cost&#39;</span>]
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Lưu vào DynamoDB</span>
+</span></span><span style=display:flex><span>    save_evaluation(result, request_data<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;user_id&#39;</span>))
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> {<span style=color:#e6db74>&#39;statusCode&#39;</span>: <span style=color:#ae81ff>200</span>, <span style=color:#e6db74>&#39;body&#39;</span>: json<span style=color:#f92672>.</span>dumps(result)}
+</span></span></code></pre></div><p><strong>So Sánh Chi Phí:</strong></p><table><thead><tr><th style=text-align:left>Phương Pháp</th><th style=text-align:left>Chi Phí / 3-phút Audio</th><th style=text-align:left>Độ Trễ</th></tr></thead><tbody><tr><td style=text-align:left>Gemini Native Audio</td><td style=text-align:left>~$0.021</td><td style=text-align:left>30-45s</td></tr><tr><td style=text-align:left>AWS Transcribe + LLM</td><td style=text-align:left>~$0.076</td><td style=text-align:left>60-90s</td></tr><tr><td style=text-align:left><strong>Tiết Kiệm</strong></td><td style=text-align:left><strong>72%</strong></td><td style=text-align:left><strong>Nhanh gấp 2x</strong></td></tr></tbody></table><hr><h3 id=lambda-function-3-flashcard-generator-rag>Lambda Function 3: Flashcard Generator (RAG)</h3><p>Tạo flashcards từ tài liệu PDF sử dụng <strong>RAG pipeline nhẹ với Titan Embeddings</strong> (in-memory vector store, tối ưu cho Lambda package &lt;50MB).</p><table><thead><tr><th style=text-align:left>Cài Đặt</th><th style=text-align:left>Giá Trị</th></tr></thead><tbody><tr><td style=text-align:left><strong>Function name</strong></td><td style=text-align:left><code>bandup-flashcard-generator</code></td></tr><tr><td style=text-align:left><strong>Runtime</strong></td><td style=text-align:left>Python 3.11</td></tr><tr><td style=text-align:left><strong>Memory</strong></td><td style=text-align:left>1024 MB</td></tr><tr><td style=text-align:left><strong>Timeout</strong></td><td style=text-align:left>10 phút</td></tr><tr><td style=text-align:left><strong>Trigger</strong></td><td style=text-align:left>SQS (<code>bandup-flashcard-queue</code>)</td></tr><tr><td style=text-align:left><strong>AI Model</strong></td><td style=text-align:left>Gemini + Amazon Titan Embeddings V2</td></tr></tbody></table><p><strong>Luồng RAG Pipeline:</strong></p><pre tabindex=0><code>┌─────────────┐     ┌──────────────┐     ┌─────────────────┐
+│  PDF Upload │ ──▶ │   Chunking   │ ──▶ │ Titan Embeddings│
+│     (S3)    │     │ (3000 chars) │     │   (Bedrock)     │
+└─────────────┘     └──────────────┘     └────────┬────────┘
+                                                  │
+                                                  ▼
+┌─────────────┐     ┌──────────────┐     ┌─────────────────┐
+│  Flashcards │ ◀── │   Gemini     │ ◀── │ In-Memory Store │
+│   (JSON)    │     │  Generation  │     │  (Cosine Sim)   │
+└─────────────┘     └──────────────┘     └─────────────────┘
+</code></pre><p><strong>Triển Khai Chính:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> json
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> os
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> boto3
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> time
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> google.generativeai <span style=color:#66d9ef>as</span> genai
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> typing <span style=color:#f92672>import</span> Dict, Any, List
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> concurrent.futures <span style=color:#f92672>import</span> ThreadPoolExecutor, as_completed
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>logger <span style=color:#f92672>=</span> logging<span style=color:#f92672>.</span>getLogger()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Global instance cho warm starts (tối ưu Lambda)</span>
+</span></span><span style=display:flex><span>_rag_instance <span style=color:#f92672>=</span> <span style=color:#66d9ef>None</span>
+</span></span><span style=display:flex><span>_s3_client <span style=color:#f92672>=</span> <span style=color:#66d9ef>None</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>get_s3_client</span>():
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Lấy cached S3 client.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>global</span> _s3_client
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> _s3_client <span style=color:#f92672>is</span> <span style=color:#66d9ef>None</span>:
+</span></span><span style=display:flex><span>        _s3_client <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#39;s3&#39;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> _s3_client
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>get_rag_instance</span>(api_key: str):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Lấy cached RAG instance cho warm starts.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>global</span> _rag_instance
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> _rag_instance <span style=color:#f92672>is</span> <span style=color:#66d9ef>None</span>:
+</span></span><span style=display:flex><span>        _rag_instance <span style=color:#f92672>=</span> RAG(
+</span></span><span style=display:flex><span>            api_key<span style=color:#f92672>=</span>api_key,
+</span></span><span style=display:flex><span>            chunk_size<span style=color:#f92672>=</span>int(os<span style=color:#f92672>.</span>environ<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;RAG_CHUNK_SIZE&#39;</span>, <span style=color:#e6db74>&#39;500&#39;</span>)),
+</span></span><span style=display:flex><span>            chunk_overlap<span style=color:#f92672>=</span>int(os<span style=color:#f92672>.</span>environ<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;RAG_CHUNK_OVERLAP&#39;</span>, <span style=color:#e6db74>&#39;100&#39;</span>))
+</span></span><span style=display:flex><span>        )
+</span></span><span style=display:flex><span>        logger<span style=color:#f92672>.</span>info(<span style=color:#e6db74>&#34;Cold start: RAG instance created&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>        logger<span style=color:#f92672>.</span>info(<span style=color:#e6db74>&#34;Warm start: Reusing RAG instance&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> _rag_instance
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>download_pdf_from_s3</span>(bucket: str, key: str) <span style=color:#f92672>-&gt;</span> str:
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Tải PDF từ S3 về /tmp.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    s3 <span style=color:#f92672>=</span> get_s3_client()
+</span></span><span style=display:flex><span>    local_path <span style=color:#f92672>=</span> <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;/tmp/</span><span style=color:#e6db74>{</span>key<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#39;/&#39;</span>)[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>    s3<span style=color:#f92672>.</span>download_file(bucket, key, local_path)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> local_path
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>lambda_handler</span>(event: Dict[str, Any], context: Any) <span style=color:#f92672>-&gt;</span> Dict[str, Any]:
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Tạo flashcard dựa trên RAG (nhẹ).&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    start_time <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+</span></span><span style=display:flex><span>    is_async <span style=color:#f92672>=</span> is_sqs_event(event)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Parse request</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> is_async:
+</span></span><span style=display:flex><span>        request, job_id <span style=color:#f92672>=</span> parse_sqs_message(event)
+</span></span><span style=display:flex><span>        update_job_status(job_id, <span style=color:#e6db74>&#39;processing&#39;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>        request <span style=color:#f92672>=</span> json<span style=color:#f92672>.</span>loads(event<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;body&#39;</span>, <span style=color:#e6db74>&#39;</span><span style=color:#e6db74>{}</span><span style=color:#e6db74>&#39;</span>)) <span style=color:#66d9ef>if</span> isinstance(event<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;body&#39;</span>), str) <span style=color:#66d9ef>else</span> event
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Lấy S3 location</span>
+</span></span><span style=display:flex><span>    pdf_url <span style=color:#f92672>=</span> request<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;pdf_url&#39;</span>)
+</span></span><span style=display:flex><span>    s3_bucket, s3_key <span style=color:#f92672>=</span> parse_s3_url(pdf_url)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Lấy API key từ Secrets Manager</span>
+</span></span><span style=display:flex><span>    secret_arn <span style=color:#f92672>=</span> os<span style=color:#f92672>.</span>environ<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;GEMINI_API_KEY_SECRET_ARN&#39;</span>)
+</span></span><span style=display:flex><span>    secrets_client <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#39;secretsmanager&#39;</span>)
+</span></span><span style=display:flex><span>    api_key <span style=color:#f92672>=</span> secrets_client<span style=color:#f92672>.</span>get_secret_value(SecretId<span style=color:#f92672>=</span>secret_arn)[<span style=color:#e6db74>&#39;SecretString&#39;</span>]
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Lấy parameters</span>
+</span></span><span style=display:flex><span>    num_cards <span style=color:#f92672>=</span> int(request<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;num_cards&#39;</span>, <span style=color:#ae81ff>10</span>))
+</span></span><span style=display:flex><span>    difficulty <span style=color:#f92672>=</span> request<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;difficulty&#39;</span>, <span style=color:#e6db74>&#39;MEDIUM&#39;</span>)
+</span></span><span style=display:flex><span>    question_types <span style=color:#f92672>=</span> request<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;question_types&#39;</span>, [<span style=color:#e6db74>&#39;DEFINITION&#39;</span>, <span style=color:#e6db74>&#39;VOCABULARY&#39;</span>, <span style=color:#e6db74>&#39;COMPREHENSION&#39;</span>])
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Bước 1: Tải PDF từ S3</span>
+</span></span><span style=display:flex><span>    local_pdf <span style=color:#f92672>=</span> download_pdf_from_s3(s3_bucket, s3_key)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Bước 2: Index document với RAG (Titan Embeddings + in-memory store)</span>
+</span></span><span style=display:flex><span>    rag <span style=color:#f92672>=</span> get_rag_instance(api_key)
+</span></span><span style=display:flex><span>    rag<span style=color:#f92672>.</span>_vector_store <span style=color:#f92672>=</span> <span style=color:#66d9ef>None</span>  <span style=color:#75715e># Reset cho document mới</span>
+</span></span><span style=display:flex><span>    rag<span style=color:#f92672>.</span>_chunks <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    index_result <span style=color:#f92672>=</span> rag<span style=color:#f92672>.</span>index_document(local_pdf, document_id<span style=color:#f92672>=</span>s3_key)
+</span></span><span style=display:flex><span>    logger<span style=color:#f92672>.</span>info(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Đã index </span><span style=color:#e6db74>{</span>index_result[<span style=color:#e6db74>&#39;chunk_count&#39;</span>]<span style=color:#e6db74>}</span><span style=color:#e6db74> chunks từ </span><span style=color:#e6db74>{</span>index_result[<span style=color:#e6db74>&#39;page_count&#39;</span>]<span style=color:#e6db74>}</span><span style=color:#e6db74> trang&#34;</span>)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Bước 3: Truy xuất chunks liên quan (hybrid approach)</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> index_result[<span style=color:#e6db74>&#39;chunk_count&#39;</span>] <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>15</span>:
+</span></span><span style=display:flex><span>        <span style=color:#75715e># Document nhỏ: dùng representative chunks</span>
+</span></span><span style=display:flex><span>        chunks <span style=color:#f92672>=</span> rag<span style=color:#f92672>.</span>get_representative_chunks(num_chunks<span style=color:#f92672>=</span>min(<span style=color:#ae81ff>10</span>, index_result[<span style=color:#e6db74>&#39;chunk_count&#39;</span>]))
+</span></span><span style=display:flex><span>        retrieval_method <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;representative&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>        <span style=color:#75715e># Document lớn: dùng smart keyword-based queries</span>
+</span></span><span style=display:flex><span>        chunks <span style=color:#f92672>=</span> rag<span style=color:#f92672>.</span>retrieve_with_smart_queries(top_k_per_query<span style=color:#f92672>=</span><span style=color:#ae81ff>3</span>)
+</span></span><span style=display:flex><span>        retrieval_method <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;smart_queries&#34;</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Bước 4: Tạo flashcards với Gemini</span>
+</span></span><span style=display:flex><span>    prompt <span style=color:#f92672>=</span> generate_flashcards_prompt(chunks, num_cards, difficulty, question_types)
+</span></span><span style=display:flex><span>    flashcard_result <span style=color:#f92672>=</span> call_gemini(prompt, api_key)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Dọn dẹp</span>
+</span></span><span style=display:flex><span>    os<span style=color:#f92672>.</span>remove(local_pdf)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Xây dựng response</span>
+</span></span><span style=display:flex><span>    total_time <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> start_time
+</span></span><span style=display:flex><span>    response_body <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;status&#39;</span>: <span style=color:#e6db74>&#39;success&#39;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;set_id&#39;</span>: request<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;set_id&#39;</span>),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;user_id&#39;</span>: request<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;user_id&#39;</span>),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;document&#39;</span>: {
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;s3_bucket&#39;</span>: s3_bucket,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;s3_key&#39;</span>: s3_key,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;page_count&#39;</span>: index_result[<span style=color:#e6db74>&#39;page_count&#39;</span>],
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;chunk_count&#39;</span>: index_result[<span style=color:#e6db74>&#39;chunk_count&#39;</span>]
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;retrieval&#39;</span>: {
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;method&#39;</span>: retrieval_method,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;chunks_used&#39;</span>: len(chunks),
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;keywords&#39;</span>: index_result<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;keywords&#39;</span>, [])[:<span style=color:#ae81ff>5</span>]
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;flashcards&#39;</span>: flashcard_result<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;flashcards&#39;</span>, []),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;total_cards&#39;</span>: len(flashcard_result<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;flashcards&#39;</span>, [])),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;metrics&#39;</span>: {
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;total_time_ms&#39;</span>: round(total_time <span style=color:#f92672>*</span> <span style=color:#ae81ff>1000</span>)
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Lưu vào DynamoDB (bảng bandup-flashcard-sets)</span>
+</span></span><span style=display:flex><span>    dynamodb <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>resource(<span style=color:#e6db74>&#39;dynamodb&#39;</span>)
+</span></span><span style=display:flex><span>    table <span style=color:#f92672>=</span> dynamodb<span style=color:#f92672>.</span>Table(os<span style=color:#f92672>.</span>environ<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;DYNAMODB_FLASHCARD_SETS&#39;</span>))
+</span></span><span style=display:flex><span>    table<span style=color:#f92672>.</span>put_item(Item<span style=color:#f92672>=</span>{
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;set_id&#39;</span>: request<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;set_id&#39;</span>),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;user_id&#39;</span>: request<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;user_id&#39;</span>),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;document_id&#39;</span>: s3_key,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;status&#39;</span>: <span style=color:#e6db74>&#39;completed&#39;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;flashcards&#39;</span>: json<span style=color:#f92672>.</span>dumps(response_body[<span style=color:#e6db74>&#39;flashcards&#39;</span>]),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;total_cards&#39;</span>: response_body[<span style=color:#e6db74>&#39;total_cards&#39;</span>],
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;page_count&#39;</span>: index_result[<span style=color:#e6db74>&#39;page_count&#39;</span>],
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;chunk_count&#39;</span>: index_result[<span style=color:#e6db74>&#39;chunk_count&#39;</span>],
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;created_at&#39;</span>: int(time<span style=color:#f92672>.</span>time())
+</span></span><span style=display:flex><span>    })
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> is_async:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> {<span style=color:#e6db74>&#39;statusCode&#39;</span>: <span style=color:#ae81ff>200</span>, <span style=color:#e6db74>&#39;body&#39;</span>: <span style=color:#e6db74>&#39;OK&#39;</span>}
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> create_response(<span style=color:#ae81ff>200</span>, response_body)
+</span></span></code></pre></div><p><strong>Titan Embeddings với Xử Lý Song Song:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>TitanEmbeddings</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Amazon Titan Text Embeddings V2 qua Bedrock với xử lý song song.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    MODEL_ID <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;amazon.titan-embed-text-v2:0&#34;</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, region: str <span style=color:#f92672>=</span> <span style=color:#66d9ef>None</span>):
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>region <span style=color:#f92672>=</span> region <span style=color:#f92672>or</span> os<span style=color:#f92672>.</span>environ<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;BEDROCK_REGION&#39;</span>, <span style=color:#e6db74>&#39;us-east-1&#39;</span>)
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>_client <span style=color:#f92672>=</span> <span style=color:#66d9ef>None</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@property</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>client</span>(self):
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> self<span style=color:#f92672>.</span>_client <span style=color:#f92672>is</span> <span style=color:#66d9ef>None</span>:
+</span></span><span style=display:flex><span>            self<span style=color:#f92672>.</span>_client <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#39;bedrock-runtime&#39;</span>, region_name<span style=color:#f92672>=</span>self<span style=color:#f92672>.</span>region)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>_client
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>embed</span>(self, text: str) <span style=color:#f92672>-&gt;</span> List[float]:
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;Lấy embedding cho single text sử dụng Titan V2.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        response <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>client<span style=color:#f92672>.</span>invoke_model(
+</span></span><span style=display:flex><span>            modelId<span style=color:#f92672>=</span>self<span style=color:#f92672>.</span>MODEL_ID,
+</span></span><span style=display:flex><span>            body<span style=color:#f92672>=</span>json<span style=color:#f92672>.</span>dumps({
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;inputText&#34;</span>: text[:<span style=color:#ae81ff>8000</span>],  <span style=color:#75715e># Độ dài input tối đa</span>
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;dimensions&#34;</span>: <span style=color:#ae81ff>512</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;normalize&#34;</span>: <span style=color:#66d9ef>True</span>
+</span></span><span style=display:flex><span>            }),
+</span></span><span style=display:flex><span>            contentType<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;application/json&#34;</span>,
+</span></span><span style=display:flex><span>            accept<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;application/json&#34;</span>
+</span></span><span style=display:flex><span>        )
+</span></span><span style=display:flex><span>        result <span style=color:#f92672>=</span> json<span style=color:#f92672>.</span>loads(response[<span style=color:#e6db74>&#39;body&#39;</span>]<span style=color:#f92672>.</span>read())
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> result[<span style=color:#e6db74>&#39;embedding&#39;</span>]
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>embed_batch_parallel</span>(self, texts: List[str], max_workers: int <span style=color:#f92672>=</span> <span style=color:#ae81ff>10</span>) <span style=color:#f92672>-&gt;</span> List[List[float]]:
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;Embed nhiều texts SONG SONG sử dụng ThreadPoolExecutor.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        embeddings <span style=color:#f92672>=</span> [<span style=color:#66d9ef>None</span>] <span style=color:#f92672>*</span> len(texts)
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>with</span> ThreadPoolExecutor(max_workers<span style=color:#f92672>=</span>max_workers) <span style=color:#66d9ef>as</span> executor:
+</span></span><span style=display:flex><span>            futures <span style=color:#f92672>=</span> {executor<span style=color:#f92672>.</span>submit(self<span style=color:#f92672>.</span>embed, t): i <span style=color:#66d9ef>for</span> i, t <span style=color:#f92672>in</span> enumerate(texts)}
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>for</span> future <span style=color:#f92672>in</span> as_completed(futures):
+</span></span><span style=display:flex><span>                idx <span style=color:#f92672>=</span> futures[future]
+</span></span><span style=display:flex><span>                embeddings[idx] <span style=color:#f92672>=</span> future<span style=color:#f92672>.</span>result()
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> embeddings
+</span></span></code></pre></div><p><strong>RAG Pipeline (In-Memory):</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> math
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> fitz  <span style=color:#75715e># PyMuPDF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>RAG</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;RAG nhẹ sử dụng Titan Embeddings + in-memory cosine similarity.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, api_key: str, chunk_size: int <span style=color:#f92672>=</span> <span style=color:#ae81ff>3000</span>, chunk_overlap: int <span style=color:#f92672>=</span> <span style=color:#ae81ff>300</span>):
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>api_key <span style=color:#f92672>=</span> api_key
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>chunk_size <span style=color:#f92672>=</span> chunk_size
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>chunk_overlap <span style=color:#f92672>=</span> chunk_overlap
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>_chunks <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>_embeddings <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>_titan <span style=color:#f92672>=</span> TitanEmbeddings()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>_keywords <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>index_document</span>(self, pdf_path: str, document_id: str <span style=color:#f92672>=</span> <span style=color:#66d9ef>None</span>) <span style=color:#f92672>-&gt;</span> Dict:
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;Index PDF với Titan V2 embeddings (xử lý song song).&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># Tải các trang PDF</span>
+</span></span><span style=display:flex><span>        pages <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>with</span> fitz<span style=color:#f92672>.</span>open(pdf_path) <span style=color:#66d9ef>as</span> doc:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>for</span> page_num, page <span style=color:#f92672>in</span> enumerate(doc):
+</span></span><span style=display:flex><span>                text <span style=color:#f92672>=</span> page<span style=color:#f92672>.</span>get_text()
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>if</span> text<span style=color:#f92672>.</span>strip():
+</span></span><span style=display:flex><span>                    pages<span style=color:#f92672>.</span>append({<span style=color:#e6db74>&#39;content&#39;</span>: text, <span style=color:#e6db74>&#39;page&#39;</span>: page_num <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>})
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#75715e># Chunk text với overlap</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>_chunks <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> page <span style=color:#f92672>in</span> pages:
+</span></span><span style=display:flex><span>            chunks <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>_chunk_text(page[<span style=color:#e6db74>&#39;content&#39;</span>])
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>for</span> chunk <span style=color:#f92672>in</span> chunks:
+</span></span><span style=display:flex><span>                self<span style=color:#f92672>.</span>_chunks<span style=color:#f92672>.</span>append({
+</span></span><span style=display:flex><span>                    <span style=color:#e6db74>&#39;text&#39;</span>: chunk,
+</span></span><span style=display:flex><span>                    <span style=color:#e6db74>&#39;page&#39;</span>: page[<span style=color:#e6db74>&#39;page&#39;</span>]
+</span></span><span style=display:flex><span>                })
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#75715e># Trích xuất keywords cho smart query generation</span>
+</span></span><span style=display:flex><span>        all_text <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34; &#34;</span><span style=color:#f92672>.</span>join([c[<span style=color:#e6db74>&#39;text&#39;</span>] <span style=color:#66d9ef>for</span> c <span style=color:#f92672>in</span> self<span style=color:#f92672>.</span>_chunks])
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>_keywords <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>_extract_keywords(all_text, top_n<span style=color:#f92672>=</span><span style=color:#ae81ff>20</span>)
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#75715e># Tạo embeddings song song (10 Bedrock calls đồng thời)</span>
+</span></span><span style=display:flex><span>        texts <span style=color:#f92672>=</span> [c[<span style=color:#e6db74>&#39;text&#39;</span>] <span style=color:#66d9ef>for</span> c <span style=color:#f92672>in</span> self<span style=color:#f92672>.</span>_chunks]
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>_embeddings <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>_titan<span style=color:#f92672>.</span>embed_batch_parallel(texts, max_workers<span style=color:#f92672>=</span><span style=color:#ae81ff>10</span>)
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> {
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;page_count&#39;</span>: len(pages),
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;chunk_count&#39;</span>: len(self<span style=color:#f92672>.</span>_chunks),
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;keywords&#39;</span>: self<span style=color:#f92672>.</span>_keywords[:<span style=color:#ae81ff>10</span>]
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>_cosine_similarity</span>(self, a: List[float], b: List[float]) <span style=color:#f92672>-&gt;</span> float:
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;Tính cosine similarity giữa hai vectors.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        dot_product <span style=color:#f92672>=</span> sum(x <span style=color:#f92672>*</span> y <span style=color:#66d9ef>for</span> x, y <span style=color:#f92672>in</span> zip(a, b))
+</span></span><span style=display:flex><span>        norm_a <span style=color:#f92672>=</span> math<span style=color:#f92672>.</span>sqrt(sum(x <span style=color:#f92672>*</span> x <span style=color:#66d9ef>for</span> x <span style=color:#f92672>in</span> a))
+</span></span><span style=display:flex><span>        norm_b <span style=color:#f92672>=</span> math<span style=color:#f92672>.</span>sqrt(sum(x <span style=color:#f92672>*</span> x <span style=color:#66d9ef>for</span> x <span style=color:#f92672>in</span> b))
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> norm_a <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span> <span style=color:#f92672>or</span> norm_b <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0.0</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> dot_product <span style=color:#f92672>/</span> (norm_a <span style=color:#f92672>*</span> norm_b)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>similarity_search</span>(self, query: str, top_k: int <span style=color:#f92672>=</span> <span style=color:#ae81ff>5</span>) <span style=color:#f92672>-&gt;</span> List[Dict]:
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;Tìm kiếm chunks tương tự sử dụng in-memory cosine similarity.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        query_embedding <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>_titan<span style=color:#f92672>.</span>embed(query)
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#75715e># Tính similarities</span>
+</span></span><span style=display:flex><span>        similarities <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> i, embedding <span style=color:#f92672>in</span> enumerate(self<span style=color:#f92672>.</span>_embeddings):
+</span></span><span style=display:flex><span>            score <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>_cosine_similarity(query_embedding, embedding)
+</span></span><span style=display:flex><span>            similarities<span style=color:#f92672>.</span>append((i, score))
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#75715e># Sắp xếp theo similarity (giảm dần) và trả về top-k</span>
+</span></span><span style=display:flex><span>        similarities<span style=color:#f92672>.</span>sort(key<span style=color:#f92672>=</span><span style=color:#66d9ef>lambda</span> x: x[<span style=color:#ae81ff>1</span>], reverse<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        results <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> rank, (idx, score) <span style=color:#f92672>in</span> enumerate(similarities[:top_k]):
+</span></span><span style=display:flex><span>            chunk <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>_chunks[idx]
+</span></span><span style=display:flex><span>            results<span style=color:#f92672>.</span>append({
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#39;text&#39;</span>: chunk[<span style=color:#e6db74>&#39;text&#39;</span>],
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#39;page&#39;</span>: chunk[<span style=color:#e6db74>&#39;page&#39;</span>],
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#39;score&#39;</span>: score,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#39;rank&#39;</span>: rank <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>            })
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> results
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>generate_smart_queries</span>(self, num_queries: int <span style=color:#f92672>=</span> <span style=color:#ae81ff>5</span>) <span style=color:#f92672>-&gt;</span> List[str]:
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;Tạo queries theo document sử dụng keywords đã trích xuất.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        kw <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>_keywords
+</span></span><span style=display:flex><span>        queries <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> len(kw) <span style=color:#f92672>&gt;=</span> <span style=color:#ae81ff>2</span>:
+</span></span><span style=display:flex><span>            queries<span style=color:#f92672>.</span>append(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;definition and explanation of </span><span style=color:#e6db74>{</span>kw[<span style=color:#ae81ff>0</span>]<span style=color:#e6db74>}</span><span style=color:#e6db74> and </span><span style=color:#e6db74>{</span>kw[<span style=color:#ae81ff>1</span>]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> len(kw) <span style=color:#f92672>&gt;=</span> <span style=color:#ae81ff>4</span>:
+</span></span><span style=display:flex><span>            queries<span style=color:#f92672>.</span>append(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;key concepts about </span><span style=color:#e6db74>{</span>kw[<span style=color:#ae81ff>2</span>]<span style=color:#e6db74>}</span><span style=color:#e6db74> </span><span style=color:#e6db74>{</span>kw[<span style=color:#ae81ff>3</span>]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> len(kw) <span style=color:#f92672>&gt;=</span> <span style=color:#ae81ff>6</span>:
+</span></span><span style=display:flex><span>            queries<span style=color:#f92672>.</span>append(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;important information regarding </span><span style=color:#e6db74>{</span>kw[<span style=color:#ae81ff>4</span>]<span style=color:#e6db74>}</span><span style=color:#e6db74> </span><span style=color:#e6db74>{</span>kw[<span style=color:#ae81ff>5</span>]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> queries[:num_queries]
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>retrieve_with_smart_queries</span>(self, top_k_per_query: int <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>) <span style=color:#f92672>-&gt;</span> List[Dict]:
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;Truy xuất chunks sử dụng nhiều smart queries cho coverage tốt hơn.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        queries <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>generate_smart_queries()
+</span></span><span style=display:flex><span>        seen_texts <span style=color:#f92672>=</span> set()
+</span></span><span style=display:flex><span>        all_results <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> query <span style=color:#f92672>in</span> queries:
+</span></span><span style=display:flex><span>            results <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>similarity_search(query, top_k<span style=color:#f92672>=</span>top_k_per_query)
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>for</span> r <span style=color:#f92672>in</span> results:
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>if</span> r[<span style=color:#e6db74>&#39;text&#39;</span>] <span style=color:#f92672>not</span> <span style=color:#f92672>in</span> seen_texts:
+</span></span><span style=display:flex><span>                    seen_texts<span style=color:#f92672>.</span>add(r[<span style=color:#e6db74>&#39;text&#39;</span>])
+</span></span><span style=display:flex><span>                    all_results<span style=color:#f92672>.</span>append(r)
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> sorted(all_results, key<span style=color:#f92672>=</span><span style=color:#66d9ef>lambda</span> x: x[<span style=color:#e6db74>&#39;score&#39;</span>], reverse<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>get_representative_chunks</span>(self, num_chunks: int <span style=color:#f92672>=</span> <span style=color:#ae81ff>10</span>) <span style=color:#f92672>-&gt;</span> List[Dict]:
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;Lấy chunks phân bố đều trong document.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> len(self<span style=color:#f92672>.</span>_chunks) <span style=color:#f92672>&lt;=</span> num_chunks:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> [{<span style=color:#e6db74>&#39;text&#39;</span>: c[<span style=color:#e6db74>&#39;text&#39;</span>], <span style=color:#e6db74>&#39;page&#39;</span>: c[<span style=color:#e6db74>&#39;page&#39;</span>], <span style=color:#e6db74>&#39;score&#39;</span>: <span style=color:#ae81ff>1.0</span>} 
+</span></span><span style=display:flex><span>                    <span style=color:#66d9ef>for</span> c <span style=color:#f92672>in</span> self<span style=color:#f92672>.</span>_chunks]
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        step <span style=color:#f92672>=</span> len(self<span style=color:#f92672>.</span>_chunks) <span style=color:#f92672>//</span> num_chunks
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> [{<span style=color:#e6db74>&#39;text&#39;</span>: self<span style=color:#f92672>.</span>_chunks[i <span style=color:#f92672>*</span> step][<span style=color:#e6db74>&#39;text&#39;</span>], 
+</span></span><span style=display:flex><span>                 <span style=color:#e6db74>&#39;page&#39;</span>: self<span style=color:#f92672>.</span>_chunks[i <span style=color:#f92672>*</span> step][<span style=color:#e6db74>&#39;page&#39;</span>], 
+</span></span><span style=display:flex><span>                 <span style=color:#e6db74>&#39;score&#39;</span>: <span style=color:#ae81ff>1.0</span>} 
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(num_chunks)]
+</span></span></code></pre></div><p><strong>Prompt Tạo Flashcard:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>generate_flashcards_prompt</span>(chunks: List[Dict], num_cards: int, difficulty: str, question_types: List[str]) <span style=color:#f92672>-&gt;</span> str:
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Xây dựng prompt cho Gemini tạo flashcard.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    context <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\n\n</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>.</span>join([
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;[Chunk </span><span style=color:#e6db74>{</span>i<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span><span style=color:#e6db74>}</span><span style=color:#e6db74>] (Page </span><span style=color:#e6db74>{</span>c<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;page&#39;</span>, <span style=color:#e6db74>&#39;?&#39;</span>)<span style=color:#e6db74>}</span><span style=color:#e6db74>):</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>{</span>c[<span style=color:#e6db74>&#39;text&#39;</span>]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> i, c <span style=color:#f92672>in</span> enumerate(chunks)
+</span></span><span style=display:flex><span>    ])
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;&#34;&#34;Based on the following document excerpts, generate </span><span style=color:#e6db74>{</span>num_cards<span style=color:#e6db74>}</span><span style=color:#e6db74> flashcards.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>CONTEXT:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74></span><span style=color:#e6db74>{</span>context<span style=color:#e6db74>}</span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>REQUIREMENTS:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>- Difficulty: </span><span style=color:#e6db74>{</span>difficulty<span style=color:#e6db74>}</span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>- Generate exactly </span><span style=color:#e6db74>{</span>num_cards<span style=color:#e6db74>}</span><span style=color:#e6db74> flashcards
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>- Each flashcard should have a clear question and concise answer
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>- Focus on key concepts, definitions, and important facts
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>- Use these question types: </span><span style=color:#e6db74>{</span><span style=color:#e6db74>&#34;, &#34;</span><span style=color:#f92672>.</span>join(question_types)<span style=color:#e6db74>}</span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>OUTPUT FORMAT (JSON):
+</span></span></span><span style=display:flex><span><span style=color:#e6db74></span><span style=color:#ae81ff>{{</span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#34;flashcards&#34;: [
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    </span><span style=color:#ae81ff>{{</span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &#34;question&#34;: &#34;...&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &#34;answer&#34;: &#34;...&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &#34;type&#34;: &#34;DEFINITION&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &#34;difficulty&#34;: &#34;</span><span style=color:#e6db74>{</span>difficulty<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &#34;source_chunk&#34;: 1
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    </span><span style=color:#ae81ff>}}</span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  ]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74></span><span style=color:#ae81ff>}}</span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Return ONLY valid JSON.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>call_gemini</span>(prompt: str, api_key: str) <span style=color:#f92672>-&gt;</span> Dict:
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Gọi Gemini API để tạo flashcard.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> google.generativeai <span style=color:#66d9ef>as</span> genai
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    genai<span style=color:#f92672>.</span>configure(api_key<span style=color:#f92672>=</span>api_key)
+</span></span><span style=display:flex><span>    model <span style=color:#f92672>=</span> genai<span style=color:#f92672>.</span>GenerativeModel(
+</span></span><span style=display:flex><span>        model_name<span style=color:#f92672>=</span>os<span style=color:#f92672>.</span>environ<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;GEMINI_MODEL&#39;</span>, <span style=color:#e6db74>&#39;gemini-2.0-flash&#39;</span>),
+</span></span><span style=display:flex><span>        generation_config<span style=color:#f92672>=</span>{
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;temperature&#39;</span>: <span style=color:#ae81ff>0.3</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;max_output_tokens&#39;</span>: <span style=color:#ae81ff>4096</span>
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    response <span style=color:#f92672>=</span> model<span style=color:#f92672>.</span>generate_content(prompt)
+</span></span><span style=display:flex><span>    text <span style=color:#f92672>=</span> response<span style=color:#f92672>.</span>text
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Trích xuất JSON nếu được wrap trong markdown</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#e6db74>&#39;```json&#39;</span> <span style=color:#f92672>in</span> text:
+</span></span><span style=display:flex><span>        text <span style=color:#f92672>=</span> text<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#39;```json&#39;</span>)[<span style=color:#ae81ff>1</span>]<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#39;```&#39;</span>)[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> json<span style=color:#f92672>.</span>loads(text<span style=color:#f92672>.</span>strip())
+</span></span></code></pre></div><hr><h3 id=lambda-function-4-s3-upload-handler>Lambda Function 4: S3 Upload Handler</h3><p>Tạo <strong>presigned URLs</strong> để upload file an toàn lên S3.</p><table><thead><tr><th style=text-align:left>Cài Đặt</th><th style=text-align:left>Giá Trị</th></tr></thead><tbody><tr><td style=text-align:left><strong>Function name</strong></td><td style=text-align:left><code>bandup-s3-upload</code></td></tr><tr><td style=text-align:left><strong>Runtime</strong></td><td style=text-align:left>Python 3.11</td></tr><tr><td style=text-align:left><strong>Memory</strong></td><td style=text-align:left>256 MB</td></tr><tr><td style=text-align:left><strong>Timeout</strong></td><td style=text-align:left>30 giây</td></tr><tr><td style=text-align:left><strong>Trigger</strong></td><td style=text-align:left>API Gateway (sync)</td></tr></tbody></table><p><strong>Triển Khai Chính:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> json
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> os
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> boto3
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> datetime <span style=color:#f92672>import</span> datetime
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> typing <span style=color:#f92672>import</span> Dict, Any
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>s3_client <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#39;s3&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>lambda_handler</span>(event: Dict[str, Any], context: Any) <span style=color:#f92672>-&gt;</span> Dict:
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Tạo presigned URL cho S3 upload.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    request <span style=color:#f92672>=</span> json<span style=color:#f92672>.</span>loads(event<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;body&#39;</span>, <span style=color:#e6db74>&#39;</span><span style=color:#e6db74>{}</span><span style=color:#e6db74>&#39;</span>))
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    user_id <span style=color:#f92672>=</span> request<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;user_id&#39;</span>)
+</span></span><span style=display:flex><span>    filename <span style=color:#f92672>=</span> request<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;filename&#39;</span>)
+</span></span><span style=display:flex><span>    content_type <span style=color:#f92672>=</span> request<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;content_type&#39;</span>, <span style=color:#e6db74>&#39;application/octet-stream&#39;</span>)
+</span></span><span style=display:flex><span>    upload_type <span style=color:#f92672>=</span> request<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;upload_type&#39;</span>, <span style=color:#e6db74>&#39;general&#39;</span>)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Xác định bucket dựa trên upload type</span>
+</span></span><span style=display:flex><span>    bucket_map <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;speaking_audio&#39;</span>: os<span style=color:#f92672>.</span>environ<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;S3_BUCKET_AUDIO&#39;</span>),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;flashcard_pdf&#39;</span>: os<span style=color:#f92672>.</span>environ<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;S3_BUCKET_DOCUMENTS&#39;</span>),
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;writing_essay&#39;</span>: os<span style=color:#f92672>.</span>environ<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;S3_BUCKET_DOCUMENTS&#39;</span>),
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    bucket <span style=color:#f92672>=</span> bucket_map<span style=color:#f92672>.</span>get(upload_type)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Tạo S3 key có tổ chức</span>
+</span></span><span style=display:flex><span>    timestamp <span style=color:#f92672>=</span> datetime<span style=color:#f92672>.</span>now()<span style=color:#f92672>.</span>strftime(<span style=color:#e6db74>&#39;%Y%m</span><span style=color:#e6db74>%d</span><span style=color:#e6db74>_%H%M%S&#39;</span>)
+</span></span><span style=display:flex><span>    key <span style=color:#f92672>=</span> <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;uploads/</span><span style=color:#e6db74>{</span>upload_type<span style=color:#e6db74>}</span><span style=color:#e6db74>/</span><span style=color:#e6db74>{</span>user_id<span style=color:#e6db74>}</span><span style=color:#e6db74>/</span><span style=color:#e6db74>{</span>timestamp<span style=color:#e6db74>}</span><span style=color:#e6db74>_</span><span style=color:#e6db74>{</span>filename<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Tạo presigned PUT URL (hết hạn sau 15 phút)</span>
+</span></span><span style=display:flex><span>    upload_url <span style=color:#f92672>=</span> s3_client<span style=color:#f92672>.</span>generate_presigned_url(
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;put_object&#39;</span>,
+</span></span><span style=display:flex><span>        Params<span style=color:#f92672>=</span>{<span style=color:#e6db74>&#39;Bucket&#39;</span>: bucket, <span style=color:#e6db74>&#39;Key&#39;</span>: key, <span style=color:#e6db74>&#39;ContentType&#39;</span>: content_type},
+</span></span><span style=display:flex><span>        ExpiresIn<span style=color:#f92672>=</span><span style=color:#ae81ff>900</span>
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Tạo presigned GET URL (hết hạn sau 1 giờ)</span>
+</span></span><span style=display:flex><span>    get_url <span style=color:#f92672>=</span> s3_client<span style=color:#f92672>.</span>generate_presigned_url(
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;get_object&#39;</span>,
+</span></span><span style=display:flex><span>        Params<span style=color:#f92672>=</span>{<span style=color:#e6db74>&#39;Bucket&#39;</span>: bucket, <span style=color:#e6db74>&#39;Key&#39;</span>: key},
+</span></span><span style=display:flex><span>        ExpiresIn<span style=color:#f92672>=</span><span style=color:#ae81ff>3600</span>
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> {
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;statusCode&#39;</span>: <span style=color:#ae81ff>200</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;headers&#39;</span>: {<span style=color:#e6db74>&#39;Content-Type&#39;</span>: <span style=color:#e6db74>&#39;application/json&#39;</span>},
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#39;body&#39;</span>: json<span style=color:#f92672>.</span>dumps({
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;upload_url&#39;</span>: upload_url,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;get_url&#39;</span>: get_url,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;file_url&#39;</span>: <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;s3://</span><span style=color:#e6db74>{</span>bucket<span style=color:#e6db74>}</span><span style=color:#e6db74>/</span><span style=color:#e6db74>{</span>key<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#39;expires_in&#39;</span>: <span style=color:#ae81ff>900</span>
+</span></span><span style=display:flex><span>        })
+</span></span><span style=display:flex><span>    }
+</span></span></code></pre></div><hr><h3 id=quản-lý-secrets-an-toàn>Quản Lý Secrets An Toàn</h3><p>Tất cả Lambda functions sử dụng <strong>AWS Secrets Manager</strong> để lấy API keys:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># secrets_helper.py (trong Lambda Layer)</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> boto3
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> os
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> functools <span style=color:#f92672>import</span> lru_cache
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@lru_cache</span>(maxsize<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>get_gemini_api_key</span>() <span style=color:#f92672>-&gt;</span> str:
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Lấy Gemini API key từ Secrets Manager (có cache).&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    client <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#39;secretsmanager&#39;</span>)
+</span></span><span style=display:flex><span>    secret_arn <span style=color:#f92672>=</span> os<span style=color:#f92672>.</span>environ<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;GEMINI_API_KEY_SECRET_ARN&#39;</span>)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    response <span style=color:#f92672>=</span> client<span style=color:#f92672>.</span>get_secret_value(SecretId<span style=color:#f92672>=</span>secret_arn)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> response[<span style=color:#e6db74>&#39;SecretString&#39;</span>]
+</span></span></code></pre></div><div class="notices warning"><p><strong>Best Practices Bảo Mật:</strong></p><ul><li>Không bao giờ hardcode API keys trong Lambda code</li><li>Sử dụng AWS Secrets Manager cho tất cả credentials nhạy cảm</li><li>Rotate secrets định kỳ sử dụng automatic rotation</li><li>Sử dụng IAM roles với least-privilege permissions</li></ul></div><hr><h3 id=iam-role-cho-lambda-functions>IAM Role cho Lambda Functions</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Version&#34;</span>: <span style=color:#e6db74>&#34;2012-10-17&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Statement&#34;</span>: [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Sid&#34;</span>: <span style=color:#e6db74>&#34;BedrockAccess&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Effect&#34;</span>: <span style=color:#e6db74>&#34;Allow&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Action&#34;</span>: [<span style=color:#e6db74>&#34;bedrock:InvokeModel&#34;</span>],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Resource&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:bedrock:*:*:foundation-model/amazon.titan-embed-text-v2*&#34;</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Sid&#34;</span>: <span style=color:#e6db74>&#34;DynamoDBAccess&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Effect&#34;</span>: <span style=color:#e6db74>&#34;Allow&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Action&#34;</span>: [<span style=color:#e6db74>&#34;dynamodb:PutItem&#34;</span>, <span style=color:#e6db74>&#34;dynamodb:GetItem&#34;</span>, <span style=color:#e6db74>&#34;dynamodb:Query&#34;</span>],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Resource&#34;</span>: [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;arn:aws:dynamodb:*:*:table/bandup-evaluations&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;arn:aws:dynamodb:*:*:table/bandup-flashcard-sets&#34;</span>
+</span></span><span style=display:flex><span>      ]
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Sid&#34;</span>: <span style=color:#e6db74>&#34;S3Access&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Effect&#34;</span>: <span style=color:#e6db74>&#34;Allow&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Action&#34;</span>: [<span style=color:#e6db74>&#34;s3:GetObject&#34;</span>, <span style=color:#e6db74>&#34;s3:PutObject&#34;</span>],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Resource&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:s3:::bandup-*/*&#34;</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Sid&#34;</span>: <span style=color:#e6db74>&#34;SQSAccess&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Effect&#34;</span>: <span style=color:#e6db74>&#34;Allow&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Action&#34;</span>: [<span style=color:#e6db74>&#34;sqs:ReceiveMessage&#34;</span>, <span style=color:#e6db74>&#34;sqs:DeleteMessage&#34;</span>],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Resource&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:sqs:*:*:bandup-*-queue&#34;</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Sid&#34;</span>: <span style=color:#e6db74>&#34;SecretsAccess&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Effect&#34;</span>: <span style=color:#e6db74>&#34;Allow&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Action&#34;</span>: [<span style=color:#e6db74>&#34;secretsmanager:GetSecretValue&#34;</span>],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Resource&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:secretsmanager:*:*:secret:bandup/*&#34;</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Sid&#34;</span>: <span style=color:#e6db74>&#34;CloudWatchLogs&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Effect&#34;</span>: <span style=color:#e6db74>&#34;Allow&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Action&#34;</span>: [<span style=color:#e6db74>&#34;logs:CreateLogStream&#34;</span>, <span style=color:#e6db74>&#34;logs:PutLogEvents&#34;</span>],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Resource&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:logs:*:*:log-group:/aws/lambda/bandup-*&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><hr><h3 id=bảng-dynamodb>Bảng DynamoDB</h3><p>Các Lambda functions lưu kết quả vào <strong>hai bảng DynamoDB</strong>:</p><table><thead><tr><th style=text-align:left>Bảng</th><th style=text-align:left>Sử Dụng Bởi</th><th style=text-align:left>Mục Đích</th></tr></thead><tbody><tr><td style=text-align:left><code>bandup-evaluations</code></td><td style=text-align:left>Writing + Speaking Evaluators</td><td style=text-align:left>Lưu điểm band IELTS, feedback, transcripts</td></tr><tr><td style=text-align:left><code>bandup-flashcard-sets</code></td><td style=text-align:left>Flashcard Generator</td><td style=text-align:left>Lưu flashcards và document metadata</td></tr></tbody></table><p><strong>Schema Bảng Evaluations (Writing & Speaking):</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Sử dụng bởi Writing Evaluator</span>
+</span></span><span style=display:flex><span>table<span style=color:#f92672>.</span>put_item(Item<span style=color:#f92672>=</span>{
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;evaluation_id&#39;</span>: session_id,      <span style=color:#75715e># Partition Key</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;user_id&#39;</span>: user_id,               <span style=color:#75715e># Sort Key</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;evaluation_type&#39;</span>: <span style=color:#e6db74>&#39;writing&#39;</span>,     <span style=color:#75715e># &#39;writing&#39; hoặc &#39;speaking&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;status&#39;</span>: <span style=color:#e6db74>&#39;completed&#39;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;overall_band&#39;</span>: <span style=color:#e6db74>&#39;7.0&#39;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;task_achievement_band&#39;</span>: <span style=color:#e6db74>&#39;7.0&#39;</span>,   <span style=color:#75715e># Chỉ Writing</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;fluency_band&#39;</span>: <span style=color:#e6db74>&#39;6.5&#39;</span>,            <span style=color:#75715e># Chỉ Speaking</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;pronunciation_band&#39;</span>: <span style=color:#e6db74>&#39;7.0&#39;</span>,      <span style=color:#75715e># Chỉ Speaking</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;transcript&#39;</span>: <span style=color:#e6db74>&#39;...&#39;</span>,              <span style=color:#75715e># Chỉ Speaking</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;feedback&#39;</span>: json<span style=color:#f92672>.</span>dumps(feedback),
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;created_at&#39;</span>: timestamp
+</span></span><span style=display:flex><span>})
+</span></span></code></pre></div><p><strong>Schema Bảng Flashcard Sets:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Sử dụng bởi Flashcard Generator</span>
+</span></span><span style=display:flex><span>table<span style=color:#f92672>.</span>put_item(Item<span style=color:#f92672>=</span>{
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;set_id&#39;</span>: set_id,                 <span style=color:#75715e># Partition Key</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;user_id&#39;</span>: user_id,               <span style=color:#75715e># Sort Key</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;document_id&#39;</span>: document_id,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;status&#39;</span>: <span style=color:#e6db74>&#39;completed&#39;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;flashcards&#39;</span>: json<span style=color:#f92672>.</span>dumps(flashcards),
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;total_cards&#39;</span>: <span style=color:#ae81ff>10</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;page_count&#39;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;chunk_count&#39;</span>: <span style=color:#ae81ff>12</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;created_at&#39;</span>: timestamp
+</span></span><span style=display:flex><span>})
+</span></span></code></pre></div><hr><h3 id=biến-môi-trường>Biến Môi Trường</h3><table><thead><tr><th style=text-align:left>Biến</th><th style=text-align:left>Mô Tả</th><th style=text-align:left>Ví Dụ</th></tr></thead><tbody><tr><td style=text-align:left><code>GEMINI_API_KEY_SECRET_ARN</code></td><td style=text-align:left>Secrets Manager ARN</td><td style=text-align:left><code>arn:aws:secretsmanager:...:secret:bandup/gemini-api-key</code></td></tr><tr><td style=text-align:left><code>DYNAMODB_EVALUATIONS</code></td><td style=text-align:left>Bảng evaluations (Writing + Speaking)</td><td style=text-align:left><code>bandup-evaluations</code></td></tr><tr><td style=text-align:left><code>DYNAMODB_FLASHCARD_SETS</code></td><td style=text-align:left>Bảng flashcard sets</td><td style=text-align:left><code>bandup-flashcard-sets</code></td></tr><tr><td style=text-align:left><code>S3_BUCKET_AUDIO</code></td><td style=text-align:left>Audio bucket</td><td style=text-align:left><code>bandup-audio-bucket</code></td></tr><tr><td style=text-align:left><code>S3_BUCKET_DOCUMENTS</code></td><td style=text-align:left>Documents bucket</td><td style=text-align:left><code>bandup-documents-bucket</code></td></tr><tr><td style=text-align:left><code>BEDROCK_REGION</code></td><td style=text-align:left>Bedrock region cho Titan</td><td style=text-align:left><code>us-east-1</code></td></tr><tr><td style=text-align:left><code>RAG_CHUNK_SIZE</code></td><td style=text-align:left>Chunk size cho RAG</td><td style=text-align:left><code>3000</code></td></tr><tr><td style=text-align:left><code>RAG_CHUNK_OVERLAP</code></td><td style=text-align:left>Chunk overlap</td><td style=text-align:left><code>300</code></td></tr><tr><td style=text-align:left><code>GEMINI_MODEL</code></td><td style=text-align:left>Tên Gemini model</td><td style=text-align:left><code>gemini-2.0-flash</code></td></tr></tbody></table><hr><h3 id=deploy-lambda-functions>Deploy Lambda Functions</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Đóng gói với dependencies</span>
+</span></span><span style=display:flex><span>cd rag_flashcard
+</span></span><span style=display:flex><span>pip install -r requirements.txt -t package/
+</span></span><span style=display:flex><span>cp lambda_handler.py rag_pipeline.py package/
+</span></span><span style=display:flex><span>cd package <span style=color:#f92672>&amp;&amp;</span> zip -r ../function.zip . <span style=color:#f92672>&amp;&amp;</span> cd ..
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Tạo Lambda function</span>
+</span></span><span style=display:flex><span>aws lambda create-function <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    --function-name bandup-flashcard-generator <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    --runtime python3.11 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    --handler lambda_handler.lambda_handler <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    --role arn:aws:iam::<span style=color:#e6db74>${</span>AWS_ACCOUNT_ID<span style=color:#e6db74>}</span>:role/bandup-lambda-role <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    --timeout <span style=color:#ae81ff>600</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    --memory-size <span style=color:#ae81ff>1024</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    --zip-file fileb://function.zip <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    --environment Variables<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;{
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        GEMINI_API_KEY_SECRET_ARN=arn:aws:secretsmanager:</span><span style=color:#e6db74>${</span>AWS_REGION<span style=color:#e6db74>}</span><span style=color:#e6db74>:</span><span style=color:#e6db74>${</span>AWS_ACCOUNT_ID<span style=color:#e6db74>}</span><span style=color:#e6db74>:secret:bandup/gemini-api-key,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        BEDROCK_REGION=us-east-1,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        RAG_CHUNK_SIZE=3000
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    }&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Thêm SQS trigger</span>
+</span></span><span style=display:flex><span>aws lambda create-event-source-mapping <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    --function-name bandup-flashcard-generator <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    --event-source-arn arn:aws:sqs:<span style=color:#e6db74>${</span>AWS_REGION<span style=color:#e6db74>}</span>:<span style=color:#e6db74>${</span>AWS_ACCOUNT_ID<span style=color:#e6db74>}</span>:bandup-flashcard-queue <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    --batch-size <span style=color:#ae81ff>1</span>
+</span></span></code></pre></div><hr><h4 id=bước-tiếp-theo>Bước Tiếp Theo</h4><p>Tiến hành đến <a href=../5.7.4-DynamoDB/>DynamoDB</a> để cấu hình các bảng database.</p><footer class=footline></footer></div></div><div id=navigation><a class="nav nav-prev" href=../../../../vi/5-workshop/5.6-ai-service/5.6.2-sqs-queues/ title="SQS Queues"><i class="fa fa-chevron-left"></i></a>
+<a class="nav nav-next" href=../../../../vi/5-workshop/5.6-ai-service/5.6.4-dynamodb/ title=DynamoDB style=margin-right:0><i class="fa fa-chevron-right"></i></a></div></section><div style=left:-1000px;overflow:scroll;position:absolute;top:-1000px;border:none;box-sizing:content-box;height:200px;margin:0;padding:0;width:200px><div style=border:none;box-sizing:content-box;height:200px;margin:0;padding:0;width:200px></div></div><script src=../../../../js/clipboard.min.js?1765297503></script><script src=../../../../js/perfect-scrollbar.min.js?1765297503></script><script src=../../../../js/perfect-scrollbar.jquery.min.js?1765297503></script><script src=../../../../js/jquery.sticky.js?1765297503></script><script src=../../../../js/featherlight.min.js?1765297503></script><script src=../../../../js/highlight.pack.js?1765297503></script><script>hljs.initHighlightingOnLoad()</script><script src=../../../../js/modernizr.custom-3.6.0.js?1765297503></script><script src=../../../../js/learn.js?1765297503></script><script src=../../../../js/hugo-learn.js?1765297503></script><link href=../../../../mermaid/mermaid.css?1765297503 rel=stylesheet><script src=../../../../mermaid/mermaid.js?1765297503></script><script>mermaid.initialize({startOnLoad:!0})</script><script>(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,(e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date),(i=t.createElement(n),a=t.getElementsByTagName(n)[0]),i.async=1,i.src=s,a.parentNode.insertBefore(i,a)})(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-158079754-2","auto"),ga("send","pageview")</script></body></html>

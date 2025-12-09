@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Frontend Deployment (ECS Fargate) on Internship Report</title><link>https://thienluhoan.github.io/workshop-template/5-workshop/5.4-setup-fe/</link><description>Recent content in Frontend Deployment (ECS Fargate) on Internship Report</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 09 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://thienluhoan.github.io/workshop-template/5-workshop/5.4-setup-fe/index.xml" rel="self" type="application/rss+xml"/><item><title>Create Task Definition &amp; Service</title><link>https://thienluhoan.github.io/workshop-template/5-workshop/5.4-setup-fe/5.4.4-task/</link><pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate><guid>https://thienluhoan.github.io/workshop-template/5-workshop/5.4-setup-fe/5.4.4-task/</guid><description>&lt;p>In this final step for the frontend, we define how our application container should run (Task Definition) and deploy it as a scalable service (ECS Service) connected to our Load Balancer.&lt;/p>
+&lt;h3 id="1-create-task-definition">1. Create Task Definition&lt;/h3>
+&lt;p>The Task Definition serves as a blueprint for our application.&lt;/p>
+&lt;ol>
+&lt;li>Navigate to &lt;strong>Amazon ECS&lt;/strong> &amp;gt; &lt;strong>Task definitions&lt;/strong> &amp;gt; &lt;strong>Create new task definition&lt;/strong>.&lt;/li>
+&lt;li>&lt;strong>Task definition configuration:&lt;/strong>
+&lt;ul>
+&lt;li>&lt;strong>Task definition family:&lt;/strong> &lt;code>bandup-frontend&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>Launch type:&lt;/strong> &lt;code>AWS Fargate&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>OS/Architecture:&lt;/strong> &lt;code>Linux/X86_64&lt;/code>.&lt;/li>
+&lt;li>&lt;strong>Task size:&lt;/strong> &lt;code>.5 vCPU&lt;/code> and &lt;code>1 GB&lt;/code> Memory (Sufficient for our Next.js frontend).&lt;/li>
+&lt;li>&lt;strong>Task Role &amp;amp; Task Execution Role:&lt;/strong> Select &lt;code>ecsTaskExecutionRole&lt;/code> (Created in section 5.3.3).&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img alt="Task Definition Infrastructure" src="../../images/5-Workshop/5.4-fe/fe-task-1.png">&lt;/p></description></item></channel></rss>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hạ tầng Mạng &amp; Bảo mật on Báo cáo thực tập</title><link>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.3-network/</link><description>Recent content in Hạ tầng Mạng &amp; Bảo mật on Báo cáo thực tập</description><generator>Hugo</generator><language>vi</language><lastBuildDate>Tue, 09 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.3-network/index.xml" rel="self" type="application/rss+xml"/><item><title>IAM Roles cho ECS</title><link>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.3-network/5.3.3-iam/</link><pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate><guid>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.3-network/5.3.3-iam/</guid><description>&lt;p>Để Amazon ECS có thể quản lý các container, dịch vụ này cần được cấp một số quyền hạn nhất định. Chúng ta phải tạo một &lt;strong>IAM Role&lt;/strong> để ủy quyền cho ECS agent thực hiện các tác vụ như kéo (pull) container image từ Amazon ECR và gửi log đến Amazon CloudWatch thay mặt cho bạn.&lt;/p>
+&lt;h3 id="tạo-ecstaskexecutionrole">Tạo ecsTaskExecutionRole&lt;/h3>
+&lt;ol>
+&lt;li>Truy cập &lt;strong>IAM Dashboard&lt;/strong>.&lt;/li>
+&lt;li>Ở thanh điều hướng bên trái, chọn &lt;strong>Roles&lt;/strong>.&lt;/li>
+&lt;li>Nhấn &lt;strong>Create role&lt;/strong>.&lt;/li>
+&lt;/ol>
+&lt;p>&lt;strong>Bước 1: Thực thể tin cậy (Trusted Entity)&lt;/strong>&lt;/p></description></item><item><title>Thiết lập VPC Endpoints</title><link>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.3-network/5.3.4-endpoints/</link><pubDate>Tue, 09 Sep 2025 00:00:00 +0000</pubDate><guid>https://thienluhoan.github.io/workshop-template/vi/5-workshop/5.3-network/5.3.4-endpoints/</guid><description>&lt;p>Để đảm bảo an toàn bảo mật, các dịch vụ backend chạy trong Private Subnet không nên truy cập các dịch vụ AWS quan trọng thông qua Internet công cộng. Thay vào đó, chúng ta sử dụng &lt;strong>AWS PrivateLink&lt;/strong> (VPC Endpoints) để giữ lưu lượng này hoàn toàn bên trong mạng lưới của AWS.&lt;/p>
+&lt;p>Chúng ta sẽ tạo &lt;strong>4 Endpoints&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Interface Endpoints:&lt;/strong> Cho ECR (Docker &amp;amp; API) và CloudWatch Logs.&lt;/li>
+&lt;li>&lt;strong>Gateway Endpoint:&lt;/strong> Cho Amazon S3.&lt;/li>
+&lt;/ul>
+&lt;h3 id="1-tạo-interface-endpoints-ecr--cloudwatch">1. Tạo Interface Endpoints (ECR &amp;amp; CloudWatch)&lt;/h3>
+&lt;p>Chúng ta sẽ bắt đầu tạo endpoint cho &lt;strong>ECR Docker&lt;/strong> (&lt;code>ecr.dkr&lt;/code>). Quy trình này hoàn toàn tương tự cho &lt;strong>ECR API&lt;/strong> (&lt;code>ecr.api&lt;/code>) và &lt;strong>CloudWatch&lt;/strong> (&lt;code>logs&lt;/code>).&lt;/p></description></item></channel></rss>
